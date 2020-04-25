@@ -7,7 +7,7 @@ function OneCrypto({currencyAmount, currency, price}) {
 
   const useStyles = makeStyles({
     card: {
-      backgroundColor: '#5b39db',
+      backgroundColor: '#402a93',
       borderRadius: 25,
       padding: '10px 20px',
       boxShadow: '0 3px 6px rgba(0,0,0,0.16), 0 3px 6px rgba(0,0,0,0.23)',
@@ -16,7 +16,6 @@ function OneCrypto({currencyAmount, currency, price}) {
     },
     typo: {
       color: 'white',
-      paddingRight: 20
     }
   });
   const classes = useStyles();
@@ -24,9 +23,9 @@ function OneCrypto({currencyAmount, currency, price}) {
 
     <div>
       <Card className={classes.card}>
-        <Typography className={classes.typo} >{currencyAmount}</Typography>
+        <Typography className={classes.typo} style={{paddingRight: 20}} >{currencyAmount}</Typography>
         <Typography variant='caption' className={classes.typo} style={{flexGrow : 1}} >{currency}</Typography>
-        <Typography variant='caption' className={classes.typo} >{price}</Typography>
+        <Typography variant='caption' className={classes.typo} >{price} $</Typography>
       </Card>
     </div >
   );

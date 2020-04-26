@@ -3,10 +3,14 @@ import { Card, Typography, Grid, Dialog, DialogTitle, DialogContent, DialogConte
 import OneCrypto from './OneCrypto';
 import { makeStyles } from '@material-ui/core/styles';
 import AddCircleIcon from '@material-ui/icons/AddCircle';
-import emptystate from '../assets/emptystate.svg'
+import store from '../reduxStore/store'
+import { addNewCurrency } from '../reduxStore/actions';
 
 function MyCryptoes(props) {
   const [isDialogOpen, setIsDialogOpen] = React.useState(false);
+  const [price, setPrice] = React.useState(null);
+  const [currency, setCurrency] = React.useState(null);
+  const [amountBought, setAmountBought] = React.useState(null);
 
   const openDialog = () => {
     setIsDialogOpen(true);
@@ -15,6 +19,17 @@ function MyCryptoes(props) {
   const closeDialog = () => {
     setIsDialogOpen(false);
   };
+
+  const generateNewCurrnecy = () => {
+    let date = new Date()
+    return {
+      userId: store.getState().user.id,
+      name: currency,
+      boughtPrice: price,
+      amount: amountBought,
+      time: date.getTime(),
+    }
+  }
 
   const useStyles = makeStyles({
     card: {
@@ -29,9 +44,7 @@ function MyCryptoes(props) {
       backgroundColor: '#24204b',
     }
   })
-  const amount = 5
-  const currency = 'Bitcoin'
-  const price = 14005
+
   const classes = useStyles()
   return (
     <div>
@@ -43,25 +56,20 @@ function MyCryptoes(props) {
               <div style={{ padding: '10px 5px', width: '80%' }}>
                 <Card onClick={openDialog} className={classes.card} style={{ display: 'flex', justifyContent: 'center', cursor: 'pointer' }}>
                   <Typography style={{ color: 'white', flexGrow: 1 }}>Add a new currency</Typography>
-                  <AddCircleIcon fontSize='small' style={{ color: 'white' }} />
+                  <AddCircleIcon style={{ color: 'white' }} />
                 </Card>
               </div>
               {[1, 2, 3, 4, 5].map(x => (
                 <Grid key={x} item xs={12} style={{ padding: '10px 5px' }}>
-                  <OneCrypto currencyAmount={amount} currency={currency} price={price} />
+                  <OneCrypto currencyAmount={amountBought} currency={currency} price={price} />
                 </Grid>
               ))}
-              {/*<img src={emptystate} alt='empty' height='200px' width='200px' />*/}
+
             </Grid>
           </Grid>
         </Grid>
       </Card>
       <Dialog
-        PaperProps={{
-          classes: {
-            root: classes.dialog
-          }
-        }}
         onEscapeKeyDown={closeDialog}
         open={isDialogOpen}
         onClose={closeDialog} >
@@ -71,6 +79,7 @@ function MyCryptoes(props) {
             Here you can add the crypto currency you want, just fill the fields below.
         </DialogContentText>
           <TextField
+            onChange={(e) => setCurrency(e.target.value)}
             autoFocus
             margin="dense"
             id="currency"
@@ -79,18 +88,18 @@ function MyCryptoes(props) {
             fullWidth
           />
           <TextField
-            autoFocus
+            onChange={(e) => setPrice(e.target.value)}
             margin="dense"
             id="price"
-            label="price"
+            label="Buying price in dollars for one unit"
             type="number"
             fullWidth
           />
           <TextField
-            autoFocus
+            onChange={(e) => setAmountBought(e.target.value)}
             margin="dense"
             id="number"
-            label="Amount bought"
+            label="Amount"
             type="number"
             fullWidth
           />
@@ -99,7 +108,12 @@ function MyCryptoes(props) {
           <Button onClick={closeDialog} color="primary">
             Cancel
         </Button>
-          <Button onClick={closeDialog} color="primary">
+          <Button onClick={() => {
+            addNewCurrency(generateNewCurrnecy()).then(() => {
+              // closeDialog()
+            })
+          }}
+            color="primary">
             Add
         </Button>
         </DialogActions>

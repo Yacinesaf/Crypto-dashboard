@@ -1,5 +1,9 @@
 import { combineReducers } from 'redux'
-import prices from './prices'
+import cryptoes from './cryptoes'
+import user from './user'
+import myCurrencies from './myCurrencies'
 export default combineReducers({
-  prices
+  cryptoes,
+  user,
+  myCurrencies
 })

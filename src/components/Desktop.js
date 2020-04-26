@@ -6,12 +6,12 @@ import AnalyzingField from './AnalyzingField';
 function Desktop(props) {
   return (
     <div>
-      <Grid container style={{ padding: '40px 80px' }}>
+      <Grid container style={{ padding: '40px 80px', minHeight: '100vh' }}>
         <Grid item xs={4}  >
           <Typography variant='h4' style={{ color: 'white', paddingBottom: 20 }}>Dashboard</Typography>
           <MyCryptoes />
         </Grid>
-        <Grid item xs={8} style={{paddingTop : 61}}>
+        <Grid item xs={8} style={{ paddingTop: 61 }}>
           <Grid container justify='flex-end'>
             <Grid item xs={11}>
               <AnalyzingField />

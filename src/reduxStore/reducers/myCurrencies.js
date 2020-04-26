@@ -11,7 +11,7 @@ export default function (state = initialState, action) {
     case 'SET_FETCHING':
       return { ...state, fetching: action.payload }
     case 'SET_CURRENCIES':
-      return { ...state, currencies: action.payload }
+      return { ...state, currencies: [...state.currencies, action.payload] }
 
   }
 }

@@ -48,7 +48,7 @@ function MyCryptoes(props) {
   const classes = useStyles()
   return (
     <div>
-      <Card style={{ backgroundColor: '#24204b', borderRadius: 20, height: '100%' }}>
+      <Card style={{ backgroundColor: '#24204b', borderRadius: 20, height : '100%' }}>
         <Grid container justify='center'>
           <Grid item xs={11}>
             <Typography variant='h6' style={{ color: 'white', padding: '20px 20px 0 20px' }} >My Wallet</Typography>

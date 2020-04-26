@@ -36,7 +36,7 @@ function AnalyzingField(props) {
           </div>
         </div>
         <div style={{ height: 150, width: 150, border: '5px solid red', borderRadius: 150, display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
-          <Typography variant='h4' style={{ color: 'red', }}>% 24</Typography>
+          <Typography variant='h4' style={{ color: 'red', }}>24 %</Typography>
         </div>
       </Paper>
     </div>

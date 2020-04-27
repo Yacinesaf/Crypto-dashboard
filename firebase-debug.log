@@ -1,0 +1,21 @@
+[debug] [2020-04-27T19:56:17.374Z] ----------------------------------------------------------------------
+[debug] [2020-04-27T19:56:17.375Z] Command:       C:\Program Files\nodejs\node.exe C:\Users\canad\AppData\Roaming\npm\node_modules\firebase-tools\lib\bin\firebase.js init
+[debug] [2020-04-27T19:56:17.375Z] CLI Version:   8.1.1
+[debug] [2020-04-27T19:56:17.376Z] Platform:      win32
+[debug] [2020-04-27T19:56:17.376Z] Node Version:  v12.11.0
+[debug] [2020-04-27T19:56:17.376Z] Time:          Mon Apr 27 2020 15:56:17 GMT-0400 (Eastern Daylight Time)
+[debug] [2020-04-27T19:56:17.376Z] ----------------------------------------------------------------------
+[debug] [2020-04-27T19:56:17.376Z] 
+[debug] [2020-04-27T19:56:17.384Z] > command requires scopes: ["email","openid","https://www.googleapis.com/auth/cloudplatformprojects.readonly","https://www.googleapis.com/auth/firebase","https://www.googleapis.com/auth/cloud-platform"]
+[debug] [2020-04-27T19:56:17.384Z] > authorizing via signed-in user
+[info] 
+     ######## #### ########  ######## ########     ###     ######  ########
+     ##        ##  ##     ## ##       ##     ##  ##   ##  ##       ##
+     ######    ##  ########  ######   ########  #########  ######  ######
+     ##        ##  ##    ##  ##       ##     ## ##     ##       ## ##
+     ##       #### ##     ## ######## ########  ##     ##  ######  ########
+
+You're about to initialize a Firebase project in this directory:
+
+  C:\Users\canad\Desktop\reactProjects\crypto-dashboard
+

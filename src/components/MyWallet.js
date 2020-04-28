@@ -39,6 +39,7 @@ class MyWallet extends Component {
     this.setState({ isDialogOpen: false })
   }
   render() {
+    console.log(this.props.myCurrencies)
     return (
       <div style={{ height: '100%' }}>
         <Card style={{ backgroundColor: '#24204b', borderRadius: 20, height: '100%' }}>
@@ -125,7 +126,7 @@ class MyWallet extends Component {
   }
 }
 const mapStateToProps = state => ({
-  myCurrencies: state.myWallet.currencies
+  myCurrencies: state.wallet.currencies
 })
 
 export default connect(mapStateToProps, { addNewCurrency, fetchMyWallet })(MyWallet)

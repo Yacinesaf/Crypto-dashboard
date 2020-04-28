@@ -17,7 +17,7 @@ function createNewCurrency(newCurrency) {
 
 function getMyWallet() {
   let db = firebase.firestore(firebaseApp);
-  return db.collection('myWallet').orderBy('date')
+  return db.collection('myWallet').orderBy('time')
     .get()
     .then(function (querySnapshot) {
       let wallet = querySnapshot.docs.map(doc => {
@@ -25,7 +25,6 @@ function getMyWallet() {
         obj['id'] = doc.id
         return obj
       })
-      console.log(wallet)
       return wallet
     })
 }

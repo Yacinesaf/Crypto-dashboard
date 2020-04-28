@@ -11,7 +11,6 @@ export const addNewCurrency = (newCurrency) => dispatch => {
 export const fetchMyWallet = () => dispatch => {
   dispatch({ type: 'SET_FETCHING', payload: true })
   return getMyWallet().then(res => {
-    console.log(res)
     dispatch({ type: 'SET_CURRENCIES', payload: res })
     dispatch({ type: 'SET_FETCHING', payload: false })
   })

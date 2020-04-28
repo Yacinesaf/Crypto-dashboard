@@ -23,9 +23,9 @@ function OneCrypto({ myWallet }) {
 
     <div>
       <Card className={classes.card}>
-        {/*<Typography className={classes.typo} style={{ paddingRight: 20 }} >{myWallet.amount}</Typography>
-          <Typography variant='caption' className={classes.typo} style={{ flexGrow: 1 }} >{myWallet.name}</Typography>
-  <Typography variant='caption' className={classes.typo} >{myWallet.boughtPrice} $</Typography>*/}
+        <Typography className={classes.typo} style={{ paddingRight: 20 }} >{myWallet.amount}</Typography>
+        <Typography variant='caption' className={classes.typo} style={{ flexGrow: 1 }} >{myWallet.name}</Typography>
+        <Typography variant='caption' className={classes.typo} >{myWallet.boughtPrice} $</Typography>
       </Card>
     </div >
   );

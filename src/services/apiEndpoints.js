@@ -2,8 +2,8 @@ import axios from 'axios';
 import firebaseApp from '../firebase';
 import firebase from 'firebase/app';
 
-function getPrices() {
-  return axios.get('https://min-api.cryptocompare.com/data/pricemulti?fsyms=BTC,ETH&tsyms=USD&api_key=846a23d5388a713def6dbb8aa577f6036b88cd1c0a866dcf344348679915f911')
+function getCryptoes() {
+  return axios.get('https://min-api.cryptocompare.com/data/pricemulti?fsyms=BTC,ETH,XLM,BCH,LTC,EOS,XRP&tsyms=CAD&api_key=846a23d5388a713def6dbb8aa577f6036b88cd1c0a866dcf344348679915f911')
     .then(res => (console.log(res)))
 }
 
@@ -25,13 +25,21 @@ function getMyWallet() {
         obj['id'] = doc.id
         return obj
       })
+      console.log("getMyWallet -> obj", wallet)
       return wallet
     })
 }
 
+function getCryptoIcon(symbol) {
+  axios.get(`https://cryptoicons.org/api/icon/${symbol}/100/white`).then(res => {
+    console.log(res);
+  })
+}
+
 
 export {
-  getPrices,
+  getCryptoes,
   createNewCurrency,
   getMyWallet,
+  getCryptoIcon,
 }

@@ -1,9 +1,10 @@
 import React, { Component } from 'react';
-import { Card, Typography, Grid, Dialog, DialogTitle, DialogContent, DialogContentText, TextField, DialogActions, Button } from '@material-ui/core';
+import { Card, Typography, Grid, Dialog, DialogTitle, DialogContent, DialogContentText, TextField, DialogActions, Button, Menu } from '@material-ui/core';
 import OneCrypto from './OneCrypto';
 import AddCircleIcon from '@material-ui/icons/AddCircle';
 import store from '../reduxStore/store'
 import { addNewCurrency, fetchMyWallet } from '../reduxStore/actions';
+import { getCryptoIcon } from '../services/apiEndpoints'
 import { connect } from 'react-redux'
 
 
@@ -15,10 +16,12 @@ class MyWallet extends Component {
       price: null,
       currency: null,
       amountBought: null,
+      anchorEl: null,
     }
   }
 
   componentDidMount() {
+    // getCryptoIcon('BTC')
     this.props.fetchMyWallet()
   }
 
@@ -29,6 +32,7 @@ class MyWallet extends Component {
       name: this.state.currency,
       boughtPrice: this.state.price,
       amount: this.state.amountBought,
+      symbol: null,
       time: date.getTime(),
     }
   }
@@ -38,8 +42,13 @@ class MyWallet extends Component {
   closeDialog = () => {
     this.setState({ isDialogOpen: false })
   }
+  openMenu = (e) => {
+    this.setState({ anchorEl: e.currentTarget })
+  }
+  closeMenu = () => {
+    this.setState({ anchorEl: false })
+  }
   render() {
-    console.log(this.props.myCurrencies)
     return (
       <div style={{ height: '100%' }}>
         <Card style={{ backgroundColor: '#24204b', borderRadius: 20, height: '100%' }}>
@@ -82,8 +91,8 @@ class MyWallet extends Component {
               Here you can add the crypto currency you want, just fill the fields below.
             </DialogContentText>
             <TextField
+              required
               onChange={(e) => this.setState({ currency: e.target.value })}
-              autoFocus
               margin="dense"
               id="currency"
               label="Currency"
@@ -91,6 +100,7 @@ class MyWallet extends Component {
               fullWidth
             />
             <TextField
+              required
               onChange={(e) => this.setState({ price: e.target.value })}
               margin="dense"
               id="price"
@@ -99,6 +109,7 @@ class MyWallet extends Component {
               fullWidth
             />
             <TextField
+              required
               onChange={(e) => this.setState({ amountBought: e.target.value })}
               margin="dense"
               id="number"
@@ -121,6 +132,14 @@ class MyWallet extends Component {
             </Button>
           </DialogActions>
         </Dialog>
+        <Menu
+          anchorEl={this.state.anchorEl}
+          keepMounted
+          open={Boolean(this.state.anchorEl)}
+          onClose={this.closeMenu}
+        >
+
+        </Menu>
       </div>
     );
   }

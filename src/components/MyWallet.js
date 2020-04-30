@@ -1,11 +1,12 @@
 import React, { Component } from 'react';
-import { Card, Typography, Grid, Dialog, DialogTitle, DialogContent, DialogContentText, TextField, DialogActions, Button, Menu } from '@material-ui/core';
+import { Card, Typography, Grid, Dialog, DialogTitle, DialogContent, DialogContentText, TextField, DialogActions, Button, Menu, MenuItem } from '@material-ui/core';
 import OneCrypto from './OneCrypto';
 import AddCircleIcon from '@material-ui/icons/AddCircle';
 import store from '../reduxStore/store'
-import { addNewCurrency, fetchMyWallet } from '../reduxStore/actions';
+import { addNewCurrency, fetchMyWallet, getCryptoesPrices } from '../reduxStore/actions';
 import { getCryptoIcon } from '../services/apiEndpoints'
 import { connect } from 'react-redux'
+import { nameFormat } from '../services/helperFunctions'
 
 
 class MyWallet extends Component {
@@ -17,11 +18,13 @@ class MyWallet extends Component {
       currency: null,
       amountBought: null,
       anchorEl: null,
+      symbol: null,
     }
   }
 
   componentDidMount() {
     // getCryptoIcon('BTC')
+    this.props.getCryptoesPrices()
     this.props.fetchMyWallet()
   }
 
@@ -32,7 +35,7 @@ class MyWallet extends Component {
       name: this.state.currency,
       boughtPrice: this.state.price,
       amount: this.state.amountBought,
-      symbol: null,
+      symbol: this.state.symbol,
       time: date.getTime(),
     }
   }
@@ -46,9 +49,10 @@ class MyWallet extends Component {
     this.setState({ anchorEl: e.currentTarget })
   }
   closeMenu = () => {
-    this.setState({ anchorEl: false })
+    this.setState({ anchorEl: null })
   }
   render() {
+
     return (
       <div style={{ height: '100%' }}>
         <Card style={{ backgroundColor: '#24204b', borderRadius: 20, height: '100%' }}>
@@ -90,15 +94,8 @@ class MyWallet extends Component {
             <DialogContentText>
               Here you can add the crypto currency you want, just fill the fields below.
             </DialogContentText>
-            <TextField
-              required
-              onChange={(e) => this.setState({ currency: e.target.value })}
-              margin="dense"
-              id="currency"
-              label="Currency"
-              type="text"
-              fullWidth
-            />
+            onClick={this.openMenu}
+            
             <TextField
               required
               onChange={(e) => this.setState({ price: e.target.value })}
@@ -133,19 +130,42 @@ class MyWallet extends Component {
           </DialogActions>
         </Dialog>
         <Menu
+          style={{ zIndex: 2000 }}
           anchorEl={this.state.anchorEl}
           keepMounted
           open={Boolean(this.state.anchorEl)}
           onClose={this.closeMenu}
+          getContentAnchorEl={null}
+          anchorOrigin={{
+            vertical: 'bottom',
+            horizontal: 'center',
+          }}
+          transformOrigin={{
+            vertical: 'top',
+            horizontal: 'center',
+          }}
+          elevation={4}
         >
-
+          {Object.keys(this.props.cryptoes).map((x, i) => (
+            <MenuItem
+              onClick={(e) => {
+                this.setState({ symbol: e.currentTarget.innerText, currency: nameFormat(e.currentTarget.innerText) });
+                this.closeMenu()
+              }}
+              key={i}>
+              <Typography>{x}</Typography>
+            </MenuItem>
+          ))
+          }
         </Menu>
-      </div>
+      </div >
     );
   }
 }
 const mapStateToProps = state => ({
-  myCurrencies: state.wallet.currencies
+  myCurrencies: state.wallet.currencies,
+  cryptoes: state.cryptoesPrice.cryptoes,
+  fetchingCryptoes: state.cryptoesPrice.fetchingPrices
 })
 
-export default connect(mapStateToProps, { addNewCurrency, fetchMyWallet })(MyWallet)
+export default connect(mapStateToProps, { addNewCurrency, fetchMyWallet, getCryptoesPrices })(MyWallet)

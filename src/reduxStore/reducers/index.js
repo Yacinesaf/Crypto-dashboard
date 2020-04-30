@@ -1,9 +1,9 @@
 import { combineReducers } from 'redux'
-import cryptoes from './cryptoes'
+import cryptoesPrice from './cryptoesPrice'
 import user from './user'
 import wallet from './wallet'
 export default combineReducers({
-  cryptoes,
+  cryptoesPrice,
   user,
   wallet
 })

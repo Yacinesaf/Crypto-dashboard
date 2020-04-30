@@ -1,4 +1,4 @@
-import { createNewCurrency, getMyWallet } from "../services/apiEndpoints"
+import { createNewCurrency, getMyWallet, getCryptoes } from "../services/apiEndpoints"
 
 export const addNewCurrency = (newCurrency) => dispatch => {
   return createNewCurrency(newCurrency).then(res => {
@@ -11,5 +11,13 @@ export const fetchMyWallet = () => dispatch => {
   return getMyWallet().then(res => {
     dispatch({ type: 'SET_CURRENCIES', payload: res })
     dispatch({ type: 'SET_FETCHING', payload: false })
+  })
+}
+
+export const getCryptoesPrices = () => dispatch => {
+  dispatch({ type: 'SET_FETCHING_PRICES', payload: true })
+  return getCryptoes().then(res => {
+    dispatch({ type: 'SET_CRYPTOES', payload: res.data })
+    dispatch({ type: 'SET_FETCHING_PRICES', payload: false })
   })
 }

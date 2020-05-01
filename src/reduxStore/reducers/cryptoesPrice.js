@@ -1,7 +1,7 @@
 const initialState = {
   cryptoes: {},
   fetchingPrices: true,
-  pricesVarations: []
+  pricesVariations: []
 
 }
 

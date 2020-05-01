@@ -25,13 +25,12 @@ function getMyWallet() {
         obj['id'] = doc.id
         return obj
       })
-      console.log("getMyWallet -> obj", wallet)
       return wallet
     })
 }
 
 function getCryptoIcon(symbol) {
-  axios.get(`https://cryptoicons.org/api/icon/${symbol}/100/white`).then(res => {
+  axios.get(`https://cryptoicons.org/api/white/${symbol.toLowerCase()}/100`).then(res => {
     console.log(res);
   })
 }

@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Card, Typography, Grid, Dialog, DialogTitle, DialogContent, DialogContentText, TextField, DialogActions, Button, Menu, MenuItem } from '@material-ui/core';
+import { Card, Typography, Grid, Dialog, DialogTitle, DialogContent, DialogContentText, TextField, DialogActions, Button, Menu, MenuItem, Input, InputAdornment } from '@material-ui/core';
 import OneCrypto from './OneCrypto';
 import AddCircleIcon from '@material-ui/icons/AddCircle';
 import store from '../reduxStore/store'
@@ -7,6 +7,8 @@ import { addNewCurrency, fetchMyWallet, getCryptoesPrices } from '../reduxStore/
 import { getCryptoIcon } from '../services/apiEndpoints'
 import { connect } from 'react-redux'
 import { nameFormat } from '../services/helperFunctions'
+import ArrowDropDownIcon from '@material-ui/icons/ArrowDropDown';
+
 
 
 class MyWallet extends Component {
@@ -27,7 +29,6 @@ class MyWallet extends Component {
     this.props.getCryptoesPrices()
     this.props.fetchMyWallet()
   }
-
   generateNewCurrnecy() {
     let date = new Date()
     return {
@@ -52,7 +53,6 @@ class MyWallet extends Component {
     this.setState({ anchorEl: null })
   }
   render() {
-
     return (
       <div style={{ height: '100%' }}>
         <Card style={{ backgroundColor: '#24204b', borderRadius: 20, height: '100%' }}>
@@ -77,7 +77,7 @@ class MyWallet extends Component {
                 </div>
                 {this.props.myCurrencies.map((x, i) => (
                   <Grid key={i} item xs={12} style={{ padding: '10px 5px' }}>
-                    <OneCrypto myWallet={x} />
+                    <OneCrypto myCrypto={x} symbol={this.state.symbol} />
                   </Grid>
                 ))}
 
@@ -94,8 +94,9 @@ class MyWallet extends Component {
             <DialogContentText>
               Here you can add the crypto currency you want, just fill the fields below.
             </DialogContentText>
-            onClick={this.openMenu}
-            
+            <form onClick={this.openMenu} style={{ width: 'fit-content' }}>
+              <Input endAdornment={<InputAdornment position="end"><ArrowDropDownIcon /></InputAdornment>} value={this.state.symbol ? this.state.symbol : 'Crypto'} inputProps={{ 'aria-label': 'description', readOnly: true }} />
+            </form>
             <TextField
               required
               onChange={(e) => this.setState({ price: e.target.value })}
@@ -147,12 +148,13 @@ class MyWallet extends Component {
           elevation={4}
         >
           {Object.keys(this.props.cryptoes).map((x, i) => (
-            <MenuItem
+            <MenuItem key={i}
+              style={{width : 214}}
               onClick={(e) => {
                 this.setState({ symbol: e.currentTarget.innerText, currency: nameFormat(e.currentTarget.innerText) });
                 this.closeMenu()
               }}
-              key={i}>
+            >
               <Typography>{x}</Typography>
             </MenuItem>
           ))

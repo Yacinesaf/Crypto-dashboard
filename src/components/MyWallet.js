@@ -1,13 +1,14 @@
 import React, { Component } from 'react';
-import { Card, Typography, Grid, Dialog, DialogTitle, DialogContent, DialogContentText, TextField, DialogActions, Button, Menu, MenuItem, Input, InputAdornment } from '@material-ui/core';
+import { Card, Typography, Grid, Dialog, DialogTitle, DialogContent, DialogContentText, TextField, DialogActions, Button, Menu, MenuItem, Input, InputAdornment, IconButton } from '@material-ui/core';
 import OneCrypto from './OneCrypto';
 import AddCircleIcon from '@material-ui/icons/AddCircle';
 import store from '../reduxStore/store'
-import { addNewCurrency, fetchMyWallet, getCryptoesPrices } from '../reduxStore/actions';
+import { addNewCurrency, fetchMyWallet, getCryptoesPrices, deletingCrypto } from '../reduxStore/actions';
 import { getCryptoIcon } from '../services/apiEndpoints'
 import { connect } from 'react-redux'
 import { nameFormat } from '../services/helperFunctions'
 import ArrowDropDownIcon from '@material-ui/icons/ArrowDropDown';
+import DeleteIcon from '@material-ui/icons/Delete';
 
 
 
@@ -58,26 +59,17 @@ class MyWallet extends Component {
         <Card style={{ backgroundColor: '#24204b', borderRadius: 20, height: '100%' }}>
           <Grid container justify='center'>
             <Grid item xs={11}>
-              <Typography variant='h6' style={{ color: 'white', padding: '20px 20px 0 20px' }} >My Wallet</Typography>
+              <div style={{ display: 'flex', alignItems: 'center' }}>
+                <Typography variant='h6' style={{ color: 'white', padding: '20px 20px 0 20px', flexGrow: 1 }} >My Wallet</Typography>
+                <IconButton onClick={this.openDialog} style={{ cursor: 'pointer', paddingTop: 20 }}>
+                  <AddCircleIcon style={{ color: 'white', fontSize: 50 }} />
+                </IconButton>
+              </div>
               <Grid container justify='center' style={{ padding: 10 }}>
-                <div style={{ padding: '10px 5px', width: '80%' }}>
-                  <Card onClick={this.openDialog} style={{
-                    display: 'flex',
-                    justifyContent: 'center',
-                    cursor: 'pointer',
-                    backgroundColor: '#402a93',
-                    borderRadius: 25,
-                    padding: '10px 20px',
-                    boxShadow: '0 3px 6px rgba(0,0,0,0.16), 0 3px 6px rgba(0,0,0,0.23)',
-                    alignItems: 'center'
-                  }}>
-                    <Typography style={{ color: 'white', flexGrow: 1 }}>Add a new currency</Typography>
-                    <AddCircleIcon style={{ color: 'white' }} />
-                  </Card>
-                </div>
                 {this.props.myCurrencies.map((x, i) => (
-                  <Grid key={i} item xs={12} style={{ padding: '10px 5px' }}>
+                  <Grid key={i} item xs={12} style={{ padding: '20px 5px', display: 'flex', alignItems: 'center' }}>
                     <OneCrypto myCrypto={x} symbol={this.state.symbol} />
+                    <DeleteIcon onClick={(e)=> console.log(e.target)} style={{ color: 'white', paddingLeft: 15, float: 'right' }} />
                   </Grid>
                 ))}
 
@@ -149,7 +141,7 @@ class MyWallet extends Component {
         >
           {Object.keys(this.props.cryptoes).map((x, i) => (
             <MenuItem key={i}
-              style={{width : 214}}
+              style={{ width: 214 }}
               onClick={(e) => {
                 this.setState({ symbol: e.currentTarget.innerText, currency: nameFormat(e.currentTarget.innerText) });
                 this.closeMenu()
@@ -170,4 +162,4 @@ const mapStateToProps = state => ({
   fetchingCryptoes: state.cryptoesPrice.fetchingPrices
 })
 
-export default connect(mapStateToProps, { addNewCurrency, fetchMyWallet, getCryptoesPrices })(MyWallet)
+export default connect(mapStateToProps, { addNewCurrency, fetchMyWallet, getCryptoesPrices, deletingCrypto })(MyWallet)

@@ -11,8 +11,6 @@ function createNewCurrency(newCurrency) {
   let db = firebase.firestore(firebaseApp);
   let backendFormat = { ...newCurrency, time: firebase.firestore.Timestamp.fromDate(new Date()) }
   return db.collection("myWallet").add(backendFormat).then(function (doc) {
-    console.log(doc.id)
-    console.log(newCurrency)
     newCurrency.id = doc.id
     return newCurrency
   })
@@ -32,11 +30,6 @@ function getMyWallet() {
     })
 }
 
-function getCryptoIcon(symbol) {
-  axios.get(`https://cryptoicons.org/api/white/${symbol.toLowerCase()}/100`).then(res => {
-    console.log(res);
-  })
-}
 
 function deleteCrypto(docId) {
   let db = firebase.firestore(firebaseApp);
@@ -50,6 +43,5 @@ export {
   getCryptoes,
   createNewCurrency,
   getMyWallet,
-  getCryptoIcon,
   deleteCrypto
 }

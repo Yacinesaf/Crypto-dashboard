@@ -23,8 +23,20 @@ export const getCryptoesPrices = () => dispatch => {
 }
 
 export const deletingCrypto = (id) => dispatch => {
-  // dispatch({ type: 'SET_FETCHING', payload: true })
-  return deleteCrypto(id).then((res) => {
-    console.log(res)
+  dispatch({ type: 'SET_FETCHING', payload: true })
+  return deleteCrypto(id).then(() => {
+    return getMyWallet().then(res => {
+      dispatch({ type: 'SET_CURRENCIES', payload: res })
+      dispatch({ type: 'SET_FETCHING', payload: false })
+    })
   })
 }
+
+export const showSnackbar = (message, color) => dispatch => {
+  dispatch({ type: 'SHOW_SNACKBAR', payload: { show: true, message, color } });
+}
+
+export const hideSnackbar = () => dispatch => {
+  dispatch({ type: 'HIDE_SNACKBAR' })
+}
+

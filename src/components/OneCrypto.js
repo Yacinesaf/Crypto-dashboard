@@ -1,7 +1,6 @@
 import React from 'react';
-import { Card, Typography, Box } from '@material-ui/core';
+import { Card, Typography } from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/styles';
-import store from '../reduxStore/store'
 
 
 function OneCrypto({ myCrypto }) {

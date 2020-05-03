@@ -1,6 +1,6 @@
 const initialState = {
   currencies: [],
-  fetching: true,
+  fetching: null,
 
 }
 

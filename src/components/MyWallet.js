@@ -1,15 +1,14 @@
 import React, { Component } from 'react';
-import { Card, Typography, Grid, Dialog, DialogTitle, DialogContent, DialogContentText, TextField, DialogActions, Button, Menu, MenuItem, Input, InputAdornment, IconButton } from '@material-ui/core';
+import { Card, Typography, Grid, Dialog, DialogTitle, DialogContent, DialogContentText, TextField, DialogActions, Button, Menu, MenuItem, Input, InputAdornment, IconButton, CircularProgress } from '@material-ui/core';
 import OneCrypto from './OneCrypto';
 import AddCircleIcon from '@material-ui/icons/AddCircle';
 import store from '../reduxStore/store'
-import { addNewCurrency, fetchMyWallet, getCryptoesPrices, deletingCrypto } from '../reduxStore/actions';
-import { getCryptoIcon } from '../services/apiEndpoints'
+import { addNewCurrency, fetchMyWallet, getCryptoesPrices, deletingCrypto, showSnackbar } from '../reduxStore/actions';
 import { connect } from 'react-redux'
 import { nameFormat } from '../services/helperFunctions'
 import ArrowDropDownIcon from '@material-ui/icons/ArrowDropDown';
 import DeleteIcon from '@material-ui/icons/Delete';
-
+import emptystate from '../assets/emptystate.svg'
 
 
 class MyWallet extends Component {
@@ -26,7 +25,6 @@ class MyWallet extends Component {
   }
 
   componentDidMount() {
-    // getCryptoIcon('BTC')
     this.props.getCryptoesPrices()
     this.props.fetchMyWallet()
   }
@@ -66,14 +64,20 @@ class MyWallet extends Component {
                 </IconButton>
               </div>
               <Grid container justify='center' style={{ padding: 10 }}>
-                {this.props.myCurrencies.map((x, i) => (
-                  <Grid key={i} item xs={12} style={{ padding: '20px 5px', display: 'flex', alignItems: 'center' }}>
-                    <OneCrypto myCrypto={x} symbol={this.state.symbol} />
-                    <DeleteIcon onClick={(e)=> console.log(e.target)} style={{ color: 'white', paddingLeft: 15, float: 'right' }} />
-                  </Grid>
-                ))}
-
+                {!this.props.myCurrencies.length > 0 ? <img src={emptystate} alt='empty' style={{ height: 300, width: 300, paddingTop: 180 }} /> :
+                  this.props.myCurrencies.map((x, i) => (
+                    <Grid key={i} item xs={12} style={{ padding: '20px 5px', display: 'flex', alignItems: 'center' }}>
+                      <OneCrypto myCrypto={x} />
+                      {this.props.fetchingMyWallet ? <CircularProgress /> : <DeleteIcon onClick={() => {
+                        this.props.deletingCrypto(x.id).then(() => {
+                          this.props.showSnackbar('Deleted successfully', 'success')
+                        })
+                      }} style={{ color: 'white', paddingLeft: 15, }} />}
+                    </Grid>
+                  ))
+                }
               </Grid>
+
             </Grid>
           </Grid>
         </Card>
@@ -159,7 +163,8 @@ class MyWallet extends Component {
 const mapStateToProps = state => ({
   myCurrencies: state.wallet.currencies,
   cryptoes: state.cryptoesPrice.cryptoes,
+  fetchingMyWallet: state.wallet.fetching,
   fetchingCryptoes: state.cryptoesPrice.fetchingPrices
 })
 
-export default connect(mapStateToProps, { addNewCurrency, fetchMyWallet, getCryptoesPrices, deletingCrypto })(MyWallet)
+export default connect(mapStateToProps, { addNewCurrency, fetchMyWallet, getCryptoesPrices, deletingCrypto, showSnackbar })(MyWallet)

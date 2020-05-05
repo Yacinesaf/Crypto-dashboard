@@ -10,10 +10,10 @@ function Desktop(props) {
       <Navbar />
       <Grid item xs={11} style={{ paddingTop: 140 }}>
         <Grid container style={{ paddingBottom: 40 }}>
-          <Grid item md={4} lg={3} style={{ height: 'calc(100vh - 180px)' }}>
+          <Grid item md={4} style={{ height: 'calc(100vh - 180px)' }}>
             <MyWallet />
           </Grid>
-          <Grid item md={3} lg={4}>
+          <Grid item md={3} lg={3}>
           </Grid>
           <Grid item lg={5}>
             <Grid container justify='flex-end'>

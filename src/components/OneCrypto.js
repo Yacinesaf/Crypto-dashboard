@@ -8,7 +8,7 @@ function OneCrypto({ myCrypto, deletingCrypto, showSnackbar }) {
 
   const useStyles = makeStyles({
     card: {
-      backgroundColor: '#5130cf',
+      background: 'linear-gradient(to right, #654bc4, #4620d7)',  
       borderRadius: 20,
       padding: '40px 30px',
       boxShadow: '0 3px 6px rgba(0,0,0,0.16), 0 3px 6px rgba(0,0,0,0.23)',
@@ -27,8 +27,8 @@ function OneCrypto({ myCrypto, deletingCrypto, showSnackbar }) {
 
   return (
 
-    <div style={{ display : 'flex', alignItems : 'center', width : '100%' }}>
-      <Card className={classes.card} style={{ flexGrow : 1}} >
+    <div style={{ display: 'flex', alignItems: 'center', width: '100%' }}>
+      <Card className={classes.card} style={{ flexGrow: 1 }} >
         <img src={`/white/${myCrypto.symbol.toLowerCase()}.svg`} alt="ss" />
         <Typography variant='h6' className={classes.typo} style={{ padding: '0px 20px' }} >{myCrypto.amount}</Typography>
         <Typography variant='h6' className={classes.typo} style={{ flexGrow: 1 }} >{myCrypto.name}</Typography>

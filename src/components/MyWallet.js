@@ -3,7 +3,7 @@ import { Card, Typography, Grid, Dialog, DialogTitle, DialogContent, DialogConte
 import OneCrypto from './OneCrypto';
 import AddCircleIcon from '@material-ui/icons/AddCircle';
 import store from '../reduxStore/store'
-import { addNewCurrency, fetchMyWallet, getCryptoesPrices, deletingCrypto, showSnackbar } from '../reduxStore/actions';
+import { addNewCurrency, fetchMyWallet, deletingCrypto, showSnackbar } from '../reduxStore/actions';
 import { connect } from 'react-redux'
 import { nameFormat } from '../services/helperFunctions'
 import ArrowDropDownIcon from '@material-ui/icons/ArrowDropDown';
@@ -25,7 +25,6 @@ class MyWallet extends Component {
   }
 
   componentDidMount() {
-    this.props.getCryptoesPrices()
     this.props.fetchMyWallet()
   }
   generateNewCurrnecy() {
@@ -60,7 +59,7 @@ class MyWallet extends Component {
               <div style={{ display: 'flex', alignItems: 'center' }}>
                 <Typography variant='h6' style={{ color: 'white', padding: '20px 20px 0 20px', flexGrow: 1 }} >My Wallet</Typography>
                 <IconButton onClick={this.openDialog} style={{ cursor: 'pointer', paddingTop: 20 }}>
-                  <AddCircleIcon style={{ color: 'white', fontSize: 50 }} />
+                  <AddCircleIcon style={{ color: 'white', fontSize: 40 }} />
                 </IconButton>
               </div>
               <Grid container justify='center' style={{ padding: 10 }}>
@@ -160,8 +159,6 @@ class MyWallet extends Component {
 const mapStateToProps = state => ({
   myCurrencies: state.wallet.currencies,
   cryptoes: state.cryptoesPrice.cryptoes,
-  fetchingMyWallet: state.wallet.fetching,
-  fetchingCryptoes: state.cryptoesPrice.fetchingPrices
 })
 
-export default connect(mapStateToProps, { addNewCurrency, fetchMyWallet, getCryptoesPrices, deletingCrypto, showSnackbar })(MyWallet)
+export default connect(mapStateToProps, { addNewCurrency, fetchMyWallet, deletingCrypto, showSnackbar })(MyWallet)

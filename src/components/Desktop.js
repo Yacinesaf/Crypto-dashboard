@@ -13,19 +13,27 @@ class Desktop extends Component {
     this.props.getCryptoesPrices()
   }
 
-  formatingArr = (obj) => {
+  cryptoPricesObject = (obj) => {
     let arr = Object.keys(obj);
-    let maped = arr.map(x => {
-      return this.props.cryptoes[x].CAD
-    })
-    maped.sort((a, b) => b - a)
-    return maped.slice(0, 3)
+    let object = {};
+    for (let i = 0; i < arr.length; i++) {
+      object[arr[i]] = obj[arr[i]].CAD
+    }
+    return object
+
+  }
+
+  threeHighestCryptoes = (obj) => {
+    
+    // maped.sort((a, b) => b - a)
+    // return maped.slice(0, 3)
   }
 
 
 
   render() {
-    console.log(this.props.cryptoes)
+    this.cryptoPricesObject(this.props.cryptoes)
+    // console.log(this.formatingArr(this.props.cryptoes))
     return (
       <Grid container justify='center' style={{ minHeight: '100vh' }}>
         <Navbar />
@@ -35,9 +43,9 @@ class Desktop extends Component {
               <MyWallet />
             </Grid>
             <Grid item md={3} lg={3}>
-              {this.formatingArr(Object.keys(this.props.cryptoes)).map((x, i) => (
+              {/*this.formatingArr(this.props.cryptoes).map((x, i) => (
                 <HighestCrypto cryptoesPrices={this.props.cryptoes} key={i} cryptoName={x} />
-              ))}
+              ))*/}
             </Grid>
             <Grid item lg={5}>
               <Grid container justify='flex-end'>

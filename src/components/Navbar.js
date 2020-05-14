@@ -7,7 +7,7 @@ import AllOutIcon from '@material-ui/icons/AllOut';
 class Navbar extends Component {
   render() {
     return (
-        <AppBar elevation={0} color='transparent'>
+        <AppBar position='static' elevation={0} color='transparent'>
           <Grid container justify='center'>
             <Grid item xs={11} style={{ paddingTop : 40, display: 'flex', alignItems: 'center' }}>
               <Typography variant='h4' style={{ color: 'white', flexGrow: 1 }}>Dashboard</Typography>

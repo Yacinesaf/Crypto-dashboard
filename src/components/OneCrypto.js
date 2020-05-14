@@ -8,7 +8,7 @@ function OneCrypto({ myCrypto, deletingCrypto, showSnackbar }) {
 
   const useStyles = makeStyles({
     card: {
-      background: 'linear-gradient(to right, #654bc4, #4620d7)',  
+      background: 'linear-gradient(to right, #654bc4, #4620d7)',
       borderRadius: 20,
       padding: '40px 30px',
       boxShadow: '0 3px 6px rgba(0,0,0,0.16), 0 3px 6px rgba(0,0,0,0.23)',
@@ -34,7 +34,7 @@ function OneCrypto({ myCrypto, deletingCrypto, showSnackbar }) {
         <Typography variant='h6' className={classes.typo} style={{ flexGrow: 1 }} >{myCrypto.name}</Typography>
         <Typography variant='h6' className={classes.typo} >{`${myCrypto.boughtPrice} $`}</Typography>
       </Card>
-      {isDeleting ? <CircularProgress /> : <DeleteIcon onClick={() => {
+      {isDeleting ? <div style={{paddingLeft : 10}}><CircularProgress /></div> : <DeleteIcon onClick={() => {
         setIsDeleting(true)
         deletingCrypto(myCrypto.id).then(() => {
           setIsDeleting(false)

@@ -6,6 +6,7 @@ import Navbar from './Navbar';
 import HighestCrypto from './HighestCrypto';
 import { getCryptoesPrices } from '../reduxStore/actions';
 import { connect } from 'react-redux'
+import ChartVariations from './ChartVariations'
 
 class Desktop extends Component {
 
@@ -24,35 +25,37 @@ class Desktop extends Component {
   }
 
   threeHighestCryptoes = (obj) => {
-    
-    // maped.sort((a, b) => b - a)
-    // return maped.slice(0, 3)
+    let keysSorted = Object.keys(obj).sort(function (a, b) { return obj[b] - obj[a] });
+    let resultObj = {};
+    keysSorted.slice(0, 3).map(x => {
+      return resultObj[x] = obj[x]
+    })
+    return resultObj
   }
+
+  
 
 
 
   render() {
-    this.cryptoPricesObject(this.props.cryptoes)
-    // console.log(this.formatingArr(this.props.cryptoes))
     return (
       <Grid container justify='center' style={{ minHeight: '100vh' }}>
         <Navbar />
-        <Grid item xs={11} style={{ paddingTop: 140 }}>
+        <Grid item xs={11} style={{ paddingTop: 50 }}>
           <Grid container style={{ paddingBottom: 40 }}>
             <Grid item md={4} style={{ height: 'calc(100vh - 180px)' }}>
               <MyWallet />
             </Grid>
-            <Grid item md={3} lg={3}>
-              {/*this.formatingArr(this.props.cryptoes).map((x, i) => (
-                <HighestCrypto cryptoesPrices={this.props.cryptoes} key={i} cryptoName={x} />
-              ))*/}
+            <Grid item md={3} lg={4} style={{ display: 'flex', padding: '0px 20px' }}>
+              {Object.keys(this.threeHighestCryptoes(this.cryptoPricesObject(this.props.cryptoes))).map((x, i) => (
+                <HighestCrypto cryptoesPrices={this.threeHighestCryptoes(this.cryptoPricesObject(this.props.cryptoes))} key={i} cryptoName={x} />
+              ))}
             </Grid>
-            <Grid item lg={5}>
-              <Grid container justify='flex-end'>
-                <Grid item xs={11}>
-                  <AnalyzingField />
-                </Grid>
-              </Grid>
+            <Grid item lg={4}>
+              <AnalyzingField />
+            </Grid>
+            <Grid item lg={8}>
+              <ChartVariations />
             </Grid>
           </Grid>
         </Grid>

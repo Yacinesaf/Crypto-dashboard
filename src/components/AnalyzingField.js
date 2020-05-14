@@ -18,8 +18,8 @@ function AnalyzingField(props) {
   const classes = useStyles();
 
   return (
-    <div>
-      <Paper className={classes.div} style={{ backgroundColor: '#24204b', borderRadius: 20, padding: 60, alignItems: 'center' }}>
+    <div style={{ width: '100%' }}>
+      <Paper className={classes.div} style={{ backgroundColor: '#24204b', borderRadius: 20, padding: 60, alignItems: 'center', }}>
         {/*<img src={emptystate} alt='empty' height='200px' width='200px' />*/}
         <div style={{ flexGrow: 1 }}>
           <div className={classes.div} >

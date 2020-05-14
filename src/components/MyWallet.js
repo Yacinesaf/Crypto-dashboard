@@ -42,7 +42,7 @@ class MyWallet extends Component {
     this.setState({ isDialogOpen: true })
   }
   closeDialog = () => {
-    this.setState({ isDialogOpen: false })
+    this.setState({ isDialogOpen: false, symbol : null })
   }
   openMenu = (e) => {
     this.setState({ anchorEl: e.currentTarget })
@@ -62,7 +62,7 @@ class MyWallet extends Component {
                   <AddCircleIcon style={{ color: 'white', fontSize: 40 }} />
                 </IconButton>
               </div>
-              <Grid container justify='center' style={{ padding: 10 }}>
+              <Grid container justify='center' style={{ padding: 10,  }}>
                 {!this.props.myCurrencies.length > 0 ? <img src={emptystate} alt='empty' style={{ height: 300, width: 300, paddingTop: 100 }} /> :
                   this.props.myCurrencies.map((x, i) => (
                     <Grid key={i} item xs={12} style={{ padding: '20px 5px', display: 'flex', alignItems: 'center' }}>

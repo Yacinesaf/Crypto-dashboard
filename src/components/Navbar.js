@@ -9,7 +9,7 @@ class Navbar extends Component {
     return (
         <AppBar position='static' elevation={0} color='transparent'>
           <Grid container justify='center'>
-            <Grid item xs={11} style={{ paddingTop : 40, display: 'flex', alignItems: 'center' }}>
+            <Grid item xs={8} style={{ paddingTop : 40, display: 'flex', alignItems: 'center' }}>
               <Typography variant='h4' style={{ color: 'white', flexGrow: 1 }}>Dashboard</Typography>
               <Button variant='outlined' color='inherit' style={{ color: 'white' }}>
                 All Out

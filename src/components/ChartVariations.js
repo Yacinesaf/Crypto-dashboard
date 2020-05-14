@@ -6,12 +6,12 @@ import { Line } from 'react-chartjs-2'
 function ChartVariations(props) {
   const lineGraph = () => {
     const data = {
-      labels: ['January', 'February', 'March', 'April', 'May', 'June', 'July','August','September','October','November','December'],
+      labels: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'],
       datasets: [
         {
           label: 'Bitcoin',
           fill: false,
-          lineTension: 0.01,
+          lineTension: 0.1,
           backgroundColor: 'rgba(75,192,192,0.4)',
           borderColor: 'rgba(75,192,192,1)',
           borderCapStyle: 'butt',
@@ -27,11 +27,11 @@ function ChartVariations(props) {
           pointHoverBorderWidth: 2,
           pointRadius: 1,
           pointHitRadius: 10,
-          data: [65,77, 59, 80, 81, 56, 55, 40]
+          data: [65, 77, 59, 80, 81, 56, 55, 44, 6, 8, 95, 40]
         }
       ]
     };
-    return <Line data={data} width={'100%'} height={400} options={{ maintainAspectRatio: false }} />
+    return <Line data={data} width={800} height={300} options={{ maintainAspectRatio: false }} />
   }
   return (
     <div>

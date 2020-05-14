@@ -33,7 +33,7 @@ class Desktop extends Component {
     return resultObj
   }
 
-  
+
 
 
 
@@ -41,21 +41,20 @@ class Desktop extends Component {
     return (
       <Grid container justify='center' style={{ minHeight: '100vh' }}>
         <Navbar />
-        <Grid item xs={11} style={{ paddingTop: 50 }}>
+        <Grid item xs={8} style={{ paddingTop: 50 }}>
           <Grid container style={{ paddingBottom: 40 }}>
-            <Grid item md={4} style={{ height: 'calc(100vh - 180px)' }}>
+            <Grid item md={5} style={{ height: 'calc(100vh - 180px)' }}>
               <MyWallet />
             </Grid>
-            <Grid item md={3} lg={4} style={{ display: 'flex', padding: '0px 20px' }}>
-              {Object.keys(this.threeHighestCryptoes(this.cryptoPricesObject(this.props.cryptoes))).map((x, i) => (
-                <HighestCrypto cryptoesPrices={this.threeHighestCryptoes(this.cryptoPricesObject(this.props.cryptoes))} key={i} cryptoName={x} />
-              ))}
-            </Grid>
-            <Grid item lg={4}>
-              <AnalyzingField />
-            </Grid>
-            <Grid item lg={8}>
-              <ChartVariations />
+            <Grid item lg={7}>
+              <Grid container alignContent='space-around' style={{paddingLeft : 30}}>
+                <Grid item lg={12}>
+                  <AnalyzingField />
+                </Grid>
+                <Grid item lg={12}>
+                  <ChartVariations />
+                </Grid>
+              </Grid>
             </Grid>
           </Grid>
         </Grid>

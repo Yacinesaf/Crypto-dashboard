@@ -1,4 +1,4 @@
-import { createNewCurrency, getMyWallet, getCryptoes, deleteCrypto } from "../services/apiEndpoints"
+import { createNewCurrency, getMyWallet, getCryptoes, deleteCrypto, editCrypto } from "../services/apiEndpoints"
 
 export const addNewCurrency = (newCurrency) => dispatch => {
   return createNewCurrency(newCurrency).then(res => {
@@ -34,6 +34,12 @@ export const deletingCrypto = (id) => dispatch => {
 
 export const showSnackbar = (message, color) => dispatch => {
   dispatch({ type: 'SHOW_SNACKBAR', payload: { show: true, message, color } });
+}
+
+export const changeCrypto = (id, obj) => dispatch => {
+  return editCrypto(id, obj).then(res => {
+    dispatch({ type: 'UPDATE_MY_CRYPTO', payload: res })
+  })
 }
 
 export const hideSnackbar = () => dispatch => {

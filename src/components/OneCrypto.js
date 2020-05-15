@@ -2,15 +2,19 @@ import React from 'react';
 import { Card, Typography, CircularProgress } from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/styles';
 import DeleteIcon from '@material-ui/icons/Delete';
+import img from '../assets/cryptoBg.png'
+import EditIcon from '@material-ui/icons/Edit';
 
-
-function OneCrypto({ myCrypto, deletingCrypto, showSnackbar }) {
+function OneCrypto({ myCrypto, deletingCrypto, showSnackbar, changeCrypto, openModal }) {
 
   const useStyles = makeStyles({
     card: {
       background: 'linear-gradient(to right, #654bc4, #4620d7)',
+      backgroundImage: `url(${img})`,
+      backgroundPosition: 'center',
+      backgroundSize: 'cover',
       borderRadius: 20,
-      padding: '40px 30px',
+      padding: '20px 30px',
       boxShadow: '0 3px 6px rgba(0,0,0,0.16), 0 3px 6px rgba(0,0,0,0.23)',
       display: 'flex',
       alignItems: 'center',
@@ -25,12 +29,13 @@ function OneCrypto({ myCrypto, deletingCrypto, showSnackbar }) {
 
   const symbolFormat = (symbol) => {
     return symbol.split('').map(x => (
-      <Typography className={classes.typo} variant='h6'>{x}</Typography>
+      <p style={{ margin: 0 }} key={x} className={classes.typo}>{x}</p>
     ))
   }
 
   const classes = useStyles();
   const [isDeleting, setIsDeleting] = React.useState(false)
+  const [isChanging, setIsChanging] = React.useState(false)
 
 
   return (
@@ -42,15 +47,12 @@ function OneCrypto({ myCrypto, deletingCrypto, showSnackbar }) {
             <img src={`/white/${myCrypto.symbol.toLowerCase()}.svg`} alt="ss" />
           </div>
         </div>
-        <div style={{ display: 'block' }}>
-          <div style={{ display: 'flex', alignItems: 'center' }}>
-            <Typography variant='h6' className={classes.typo} >{`${myCrypto.amount}`}</Typography>
-
+        <div style={{ display: 'block', flexGrow: 1 }}>
+          <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+            <Typography variant='h6' style={{ paddingRight: 3 }} className={classes.typo} >{`${myCrypto.amount}`}</Typography>
             <Typography variant='caption' className={classes.typo} >{`${myCrypto.symbol}`}</Typography>
           </div>
-          <div>
-            <Typography variant='h6' className={classes.typo} >{`${myCrypto.boughtPrice} $`}</Typography>
-          </div>
+          <Typography style={{ textAlign: 'center' }} variant='h6' className={classes.typo} >{`${myCrypto.boughtPrice} $`}</Typography>
         </div>
         <div>
           {symbolFormat(myCrypto.symbol)}
@@ -63,6 +65,15 @@ function OneCrypto({ myCrypto, deletingCrypto, showSnackbar }) {
           showSnackbar('Deleted successfully', 'success')
         })
       }} style={{ color: 'white', paddingLeft: 15, cursor: 'pointer' }} />}
+      {isChanging ? <div style={{ paddingLeft: 10 }}><CircularProgress /></div> : <EditIcon onClick={() => {
+        setIsChanging(true);
+        openModal();
+        changeCrypto(myCrypto.id, myCrypto).then(() => {
+          setIsChanging(false)
+          showSnackbar('Crypto updated successfully', 'success')
+        })
+      }} style={{ color: 'white', paddingLeft: 15, cursor: 'pointer' }} />}
+
     </div >
   );
 }

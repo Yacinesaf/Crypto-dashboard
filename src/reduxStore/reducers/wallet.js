@@ -14,6 +14,9 @@ export default function (state = initialState, action) {
       return { ...state, currencies: [...state.currencies, action.payload] }
     case 'SET_CURRENCIES':
       return { ...state, currencies: action.payload }
+    // case 'UPDATE_MY_CRYPTO':
+    //   return { ...state, currencies: action.payload }
+      
 
   }
 }

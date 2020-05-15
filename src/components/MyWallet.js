@@ -3,7 +3,7 @@ import { Card, Typography, Grid, Dialog, DialogTitle, DialogContent, DialogConte
 import OneCrypto from './OneCrypto';
 import AddCircleIcon from '@material-ui/icons/AddCircle';
 import store from '../reduxStore/store'
-import { addNewCurrency, fetchMyWallet, deletingCrypto, showSnackbar } from '../reduxStore/actions';
+import { addNewCurrency, fetchMyWallet, deletingCrypto, showSnackbar, changeCrypto } from '../reduxStore/actions';
 import { connect } from 'react-redux'
 import { nameFormat } from '../services/helperFunctions'
 import ArrowDropDownIcon from '@material-ui/icons/ArrowDropDown';
@@ -69,6 +69,8 @@ class MyWallet extends Component {
                       <OneCrypto
                         showSnackbar={this.props.showSnackbar}
                         deletingCrypto={this.props.deletingCrypto}
+                        changeCrypto ={this.props.changeCrypto}
+                        openModal = {this.openDialog}
                         myCrypto={x} />
                     </Grid>
                   ))
@@ -161,4 +163,4 @@ const mapStateToProps = state => ({
   cryptoes: state.cryptoesPrice.cryptoes,
 })
 
-export default connect(mapStateToProps, { addNewCurrency, fetchMyWallet, deletingCrypto, showSnackbar })(MyWallet)
+export default connect(mapStateToProps, { addNewCurrency, fetchMyWallet, deletingCrypto, showSnackbar, changeCrypto })(MyWallet)

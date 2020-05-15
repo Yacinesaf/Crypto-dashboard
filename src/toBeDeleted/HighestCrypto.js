@@ -40,3 +40,22 @@ function HighestCrypto({ cryptoesPrices, cryptoName }) {
 }
 
 export default HighestCrypto;
+
+cryptoPricesObject = (obj) => {
+  let arr = Object.keys(obj);
+  let object = {};
+  for (let i = 0; i < arr.length; i++) {
+    object[arr[i]] = obj[arr[i]].CAD
+  }
+  return object
+
+}
+
+threeHighestCryptoes = (obj) => {
+  let keysSorted = Object.keys(obj).sort(function (a, b) { return obj[b] - obj[a] });
+  let resultObj = {};
+  keysSorted.slice(0, 3).map(x => {
+    return resultObj[x] = obj[x]
+  })
+  return resultObj
+}

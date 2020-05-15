@@ -34,8 +34,15 @@ function getMyWallet() {
 function deleteCrypto(docId) {
   let db = firebase.firestore(firebaseApp);
   return db.collection("myWallet").doc(docId).delete().then(function () {
-    console.log("Document successfully deleted!");
   })
+}
+
+function editCrypto(docId, newObj) {
+  let db = firebase.firestore(firebaseApp);
+  return db.collection("cities").doc(docId).set(newObj)
+    .then(function () {
+      console.log("Document successfully written!");
+    })
 }
 
 
@@ -43,5 +50,6 @@ export {
   getCryptoes,
   createNewCurrency,
   getMyWallet,
-  deleteCrypto
+  deleteCrypto,
+  editCrypto
 }

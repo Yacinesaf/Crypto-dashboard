@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { Line } from 'react-chartjs-2'
-import { InputAdornment, Input, Menu, MenuItem, Typography } from '@material-ui/core';
+import { InputAdornment, Input, Menu, MenuItem, Typography, Button } from '@material-ui/core';
 import ArrowDropDownIcon from '@material-ui/icons/ArrowDropDown';
 import { nameFormat } from '../services/helperFunctions'
 import store from '../reduxStore/store'
@@ -52,15 +52,15 @@ function ChartVariations(props) {
 
   return (
     <div>
-      <form onClick={(e) => setAnchorEl(e.currentTarget)} style={{ width: 'fit-content' }}>
-        <Input endAdornment={<InputAdornment position="end"><ArrowDropDownIcon /></InputAdornment>} value={symbol ? symbol : 'Crypto'} inputProps={{ 'aria-label': 'description', readOnly: true }} />
-      </form>
+      <Button style={{ color: 'white', float : 'right' }} onClick={(e) => setAnchorEl(e.currentTarget)}>
+        {symbol ? symbol : 'Bitcoin'}
+      </Button>
       <Menu
         style={{ zIndex: 2000 }}
         anchorEl={anchorEl}
         keepMounted
         open={Boolean(anchorEl)}
-        onClose={(e) => { setAnchorEl(null) }}
+        onClose={() => { setAnchorEl(null) }}
         getContentAnchorEl={null}
         anchorOrigin={{
           vertical: 'bottom',
@@ -74,7 +74,6 @@ function ChartVariations(props) {
       >
         {Object.keys(store.getState().cryptoesPrice.cryptoes).map((x, i) => (
           <MenuItem key={i}
-            style={{ width: 214 }}
             onClick={(e) => {
               setSymbol(e.currentTarget.innerText);
               setAnchorEl(null);
@@ -87,7 +86,9 @@ function ChartVariations(props) {
         ))
         }
       </Menu>
-      {lineGraph()}
+      <div style={{paddingTop : 20}}>
+        {lineGraph()}
+      </div>
     </div>
   );
 }

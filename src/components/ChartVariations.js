@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { Line } from 'react-chartjs-2'
-import { InputAdornment, Input, Menu, MenuItem, Typography, Button } from '@material-ui/core';
+import { Menu, MenuItem, Typography, Button } from '@material-ui/core';
 import ArrowDropDownIcon from '@material-ui/icons/ArrowDropDown';
 import { nameFormat } from '../services/helperFunctions'
 import store from '../reduxStore/store'
@@ -52,8 +52,9 @@ function ChartVariations(props) {
 
   return (
     <div>
-      <Button style={{ color: 'white', float : 'right' }} onClick={(e) => setAnchorEl(e.currentTarget)}>
+      <Button style={{ color: 'white', float: 'right' }} onClick={(e) => setAnchorEl(e.currentTarget)}>
         {symbol ? symbol : 'Bitcoin'}
+        <ArrowDropDownIcon style={{color : 'white'}} />
       </Button>
       <Menu
         style={{ zIndex: 2000 }}
@@ -86,7 +87,7 @@ function ChartVariations(props) {
         ))
         }
       </Menu>
-      <div style={{paddingTop : 20}}>
+      <div style={{ paddingTop: 20 }}>
         {lineGraph()}
       </div>
     </div>

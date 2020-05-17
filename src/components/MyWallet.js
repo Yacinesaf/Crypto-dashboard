@@ -8,7 +8,17 @@ import { connect } from 'react-redux'
 import { nameFormat } from '../services/helperFunctions'
 import ArrowDropDownIcon from '@material-ui/icons/ArrowDropDown';
 import emptystate from '../assets/emptystate.svg'
+import { withStyles } from "@material-ui/core/styles";
 
+
+const styles = {
+  root: {
+    background: "black"
+  },
+  input: {
+    color: "white"
+  }
+};
 
 class MyWallet extends Component {
   constructor() {
@@ -23,6 +33,7 @@ class MyWallet extends Component {
       cryptoFieldValue: 'Crypto',
       isCryptoChanging: false,
       changingCryptoId: null,
+
     }
   }
 
@@ -32,7 +43,6 @@ class MyWallet extends Component {
   generateNewCurrnecy() {
     let date = new Date()
     return {
-      userId: store.getState().user.id,
       name: this.state.currency,
       boughtPrice: this.state.price,
       amount: this.state.amountBought,
@@ -64,6 +74,7 @@ class MyWallet extends Component {
 
 
   render() {
+    const { classes } = this.props
     return (
       <div style={{ height: '100%' }}>
         <Card style={{ backgroundColor: '#24204b', borderRadius: 20, height: '100%' }}>
@@ -97,53 +108,71 @@ class MyWallet extends Component {
         <Dialog
           onEscapeKeyDown={this.closeDialog}
           open={this.state.isDialogOpen}
+          style={{ backgroundColor: 'rgba(255, 255, 255, 0.5)' }}
           onClose={this.closeDialog} >
-          <DialogTitle id="form-dialog-title">Add currency</DialogTitle>
-          <DialogContent>
-            <DialogContentText>
-              Here you can add the crypto currency you want, just fill the fields below.
+          <div style={{ backgroundColor: '#24204b' }}>
+            <DialogTitle style={{ color: 'white' }} id="form-dialog-title">{this.state.isCryptoChanging ? 'Update currency' : 'Add currency'}</DialogTitle>
+            <DialogContent>
+              <DialogContentText style={{ color: 'white' }}>
+                Here you can add the crypto currency you want, just fill the fields below.
             </DialogContentText>
-            <form onClick={this.openMenu} style={{ width: 'fit-content' }}>
-              <Input endAdornment={<InputAdornment position="end"><ArrowDropDownIcon /></InputAdornment>} value={this.state.symbol ? this.state.symbol : 'Crypto'} inputProps={{ 'aria-label': 'description', readOnly: true }} />
-            </form>
-            <TextField
-              required
-              onChange={(e) => this.setState({ price: e.target.value })}
-              margin="dense"
-              id="price"
-              label="Buying price in dollars for one unit"
-              type="number"
-              fullWidth
-            />
-            <TextField
-              required
-              onChange={(e) => this.setState({ amountBought: e.target.value })}
-              margin="dense"
-              id="number"
-              label="Amount"
-              type="number"
-              fullWidth
-            />
-          </DialogContent>
-          <DialogActions>
-            <Button onClick={this.closeDialog} color="primary">
-              Cancel
+              <form onClick={this.openMenu} style={{ width: 'fit-content', padding : '10px 0px' }}>
+                <Input style={{ color: 'white' }} endAdornment={<InputAdornment position="end"><ArrowDropDownIcon style={{ color: 'white' }} /></InputAdornment>} value={this.state.symbol ? this.state.symbol : 'Crypto'} inputProps={{ 'aria-label': 'description', readOnly: true }} />
+              </form>
+              <TextField
+              style={{padding : '10px 0px'}}
+                InputProps={{
+                  className: classes.input
+                }}
+                InputLabelProps={{
+                  className: classes.input
+                }}
+                required
+                onChange={(e) => this.setState({ price: e.target.value })}
+                margin="dense"
+                id="price"
+                label="Buying price in dollars for one unit"
+                type="number"
+                fullWidth
+              />
+              <TextField
+              style={{padding : '10px 0px'}}
+                InputProps={{
+                  className: classes.input
+                }}
+                InputLabelProps={{
+                  className: classes.input
+                }}
+                required
+                onChange={(e) => this.setState({ amountBought: e.target.value })}
+                margin="dense"
+                id="number"
+                label="Amount"
+                type="number"
+                fullWidth
+              />
+            </DialogContent>
+            <DialogActions>
+              <Button style={{ color: 'white' }} onClick={this.closeDialog} color="primary">
+                Cancel
              </Button>
-            <Button onClick={() => {
-              if (this.state.isCryptoChanging) {
-                changeCrypto(this.state.changingCryptoId, this.generateNewCurrnecy()).then(() => {
-                  showSnackbar('Crypto updated successfully', 'success')
-                  this.notEditingCrypto();
+              <Button style={{ color: 'white' }} onClick={() => {
+                if (this.state.isCryptoChanging) {
+                  this.props.changeCrypto(this.state.changingCryptoId, this.generateNewCurrnecy()).then(() => {
+                    showSnackbar('Crypto updated successfully', 'success')
+                    this.notEditingCrypto();
+                  })
+                }
+                this.props.addNewCurrency(this.generateNewCurrnecy()).then(() => {
+                  this.closeDialog()
                 })
-              }
-              this.props.addNewCurrency(this.generateNewCurrnecy()).then(() => {
-                this.closeDialog()
-              })
-            }}
-              color="primary">
-              {this.state.isCryptoChanging ? 'Update' : 'Add'}
-            </Button>
-          </DialogActions>
+              }}
+                color="primary">
+                {this.state.isCryptoChanging ? 'Update' : 'Add'}
+
+              </Button>
+            </DialogActions>
+          </div>
         </Dialog>
         <Menu
           style={{ zIndex: 2000 }}
@@ -184,4 +213,4 @@ const mapStateToProps = state => ({
   cryptoes: state.cryptoesPrice.cryptoes,
 })
 
-export default connect(mapStateToProps, { addNewCurrency, fetchMyWallet, deletingCrypto, showSnackbar, changeCrypto })(MyWallet)
+export default connect(mapStateToProps, { addNewCurrency, fetchMyWallet, deletingCrypto, showSnackbar, changeCrypto })(withStyles(styles)(MyWallet))

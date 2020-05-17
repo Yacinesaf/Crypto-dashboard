@@ -39,7 +39,7 @@ function deleteCrypto(docId) {
 
 function editCrypto(docId, newObj) {
   let db = firebase.firestore(firebaseApp);
-  return db.collection("cities").doc(docId).set(newObj)
+  return db.collection("myWallet").doc(docId).set(newObj)
 }
 
 

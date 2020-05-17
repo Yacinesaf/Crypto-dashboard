@@ -37,8 +37,8 @@ export const showSnackbar = (message, color) => dispatch => {
 }
 
 export const changeCrypto = (id, obj) => dispatch => {
-  return editCrypto(id, obj).then(res => {
-    dispatch({ type: 'UPDATE_MY_CRYPTO', payload: res })
+  editCrypto(id, obj).then(res => {
+    // dispatch({ type: 'UPDATE_MY_CRYPTO', payload: res })
   })
 }
 

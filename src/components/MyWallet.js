@@ -20,7 +20,9 @@ class MyWallet extends Component {
       amountBought: null,
       anchorEl: null,
       symbol: null,
-      cryptoFieldValue : 'Crypto'
+      cryptoFieldValue: 'Crypto',
+      isCryptoChanging: false,
+      changingCryptoId: null,
     }
   }
 
@@ -42,7 +44,7 @@ class MyWallet extends Component {
     this.setState({ isDialogOpen: true })
   }
   closeDialog = () => {
-    this.setState({ isDialogOpen: false, symbol : null })
+    this.setState({ isDialogOpen: false, symbol: null })
   }
   openMenu = (e) => {
     this.setState({ anchorEl: e.currentTarget })
@@ -50,6 +52,17 @@ class MyWallet extends Component {
   closeMenu = () => {
     this.setState({ anchorEl: null })
   }
+  changingCryptoId = (newId) => {
+    this.setState({ changingCryptoId: newId })
+  }
+  editingCrypto = () => {
+    this.setState({ isCryptoChanging: true })
+  }
+  notEditingCrypto = () => {
+    this.setState({ isCryptoChanging: false })
+  }
+
+
   render() {
     return (
       <div style={{ height: '100%' }}>
@@ -62,15 +75,17 @@ class MyWallet extends Component {
                   <AddCircleIcon style={{ color: 'white', fontSize: 40 }} />
                 </IconButton>
               </div>
-              <Grid container justify='center' style={{ padding: 10,  }}>
+              <Grid container justify='center' style={{ padding: 10, }}>
                 {!this.props.myCurrencies.length > 0 ? <img src={emptystate} alt='empty' style={{ height: 300, width: 300, paddingTop: 100 }} /> :
                   this.props.myCurrencies.map((x, i) => (
                     <Grid key={i} item xs={12} style={{ padding: '20px 5px', display: 'flex', alignItems: 'center' }}>
                       <OneCrypto
                         showSnackbar={this.props.showSnackbar}
                         deletingCrypto={this.props.deletingCrypto}
-                        changeCrypto ={this.props.changeCrypto}
-                        openModal = {this.openDialog}
+                        changeCrypto={this.props.changeCrypto}
+                        openModal={this.openDialog}
+                        changingCryptoId={this.changingCryptoId}
+                        editingCrypto={this.editingCrypto}
                         myCrypto={x} />
                     </Grid>
                   ))
@@ -115,12 +130,18 @@ class MyWallet extends Component {
               Cancel
              </Button>
             <Button onClick={() => {
+              if (this.state.isCryptoChanging) {
+                changeCrypto(this.state.changingCryptoId, this.generateNewCurrnecy()).then(() => {
+                  showSnackbar('Crypto updated successfully', 'success')
+                  this.notEditingCrypto();
+                })
+              }
               this.props.addNewCurrency(this.generateNewCurrnecy()).then(() => {
                 this.closeDialog()
               })
             }}
               color="primary">
-              Add
+              {this.state.isCryptoChanging ? 'Update' : 'Add'}
             </Button>
           </DialogActions>
         </Dialog>

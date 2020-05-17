@@ -5,7 +5,7 @@ import DeleteIcon from '@material-ui/icons/Delete';
 import img from '../assets/cryptoBg.png'
 import EditIcon from '@material-ui/icons/Edit';
 
-function OneCrypto({ myCrypto, deletingCrypto, showSnackbar, changeCrypto, openModal }) {
+function OneCrypto({ myCrypto, deletingCrypto, showSnackbar, changeCrypto, openModal, changingCryptoId, editingCrypto }) {
 
   const useStyles = makeStyles({
     card: {
@@ -35,7 +35,6 @@ function OneCrypto({ myCrypto, deletingCrypto, showSnackbar, changeCrypto, openM
 
   const classes = useStyles();
   const [isDeleting, setIsDeleting] = React.useState(false)
-  const [isChanging, setIsChanging] = React.useState(false)
 
 
   return (
@@ -65,14 +64,11 @@ function OneCrypto({ myCrypto, deletingCrypto, showSnackbar, changeCrypto, openM
           showSnackbar('Deleted successfully', 'success')
         })
       }} style={{ color: 'white', paddingLeft: 15, cursor: 'pointer' }} />}
-      {isChanging ? <div style={{ paddingLeft: 10 }}><CircularProgress /></div> : <EditIcon onClick={() => {
-        setIsChanging(true);
+      <EditIcon onClick={() => {
         openModal();
-        changeCrypto(myCrypto.id, myCrypto).then(() => {
-          setIsChanging(false)
-          showSnackbar('Crypto updated successfully', 'success')
-        })
-      }} style={{ color: 'white', paddingLeft: 15, cursor: 'pointer' }} />}
+        editingCrypto();
+        changingCryptoId(myCrypto.id);
+      }} style={{ color: 'white', paddingLeft: 15, cursor: 'pointer' }} />
 
     </div >
   );

@@ -33,6 +33,7 @@ class MyWallet extends Component {
       cryptoFieldValue: 'Crypto',
       isCryptoChanging: false,
       changingCryptoId: null,
+      changingCrypto: null,
 
     }
   }
@@ -64,6 +65,9 @@ class MyWallet extends Component {
   }
   changingCryptoId = (newId) => {
     this.setState({ changingCryptoId: newId })
+  }
+  changingCrypto = (obj) => {
+    this.setState({ changingCrypto: obj })
   }
   editingCrypto = () => {
     this.setState({ isCryptoChanging: true })
@@ -97,6 +101,7 @@ class MyWallet extends Component {
                         openModal={this.openDialog}
                         changingCryptoId={this.changingCryptoId}
                         editingCrypto={this.editingCrypto}
+                        changingCrypto={this.changingCrypto}
                         myCrypto={x} />
                     </Grid>
                   ))
@@ -106,6 +111,7 @@ class MyWallet extends Component {
           </Grid>
         </Card>
         <Dialog
+        onExited={()=> this.setState({isCryptoChanging : false})}
           onEscapeKeyDown={this.closeDialog}
           open={this.state.isDialogOpen}
           style={{ backgroundColor: 'rgba(255, 255, 255, 0.5)' }}
@@ -116,11 +122,15 @@ class MyWallet extends Component {
               <DialogContentText style={{ color: 'white' }}>
                 Here you can add the crypto currency you want, just fill the fields below.
             </DialogContentText>
-              <form onClick={this.openMenu} style={{ width: 'fit-content', padding : '10px 0px' }}>
-                <Input style={{ color: 'white' }} endAdornment={<InputAdornment position="end"><ArrowDropDownIcon style={{ color: 'white' }} /></InputAdornment>} value={this.state.symbol ? this.state.symbol : 'Crypto'} inputProps={{ 'aria-label': 'description', readOnly: true }} />
+              <form onClick={this.openMenu} style={{ width: 'fit-content', padding: '10px 0px' }}>
+                <Input
+                  style={{ color: 'white' }}
+                  endAdornment={<InputAdornment position="end"><ArrowDropDownIcon style={{ color: 'white' }} /></InputAdornment>}
+                  value={this.state.isCryptoChanging ? this.state.changingCrypto.symbol : (this.state.symbol ? this.state.symbol : 'Crypto')}
+                  inputProps={{ 'aria-label': 'description', readOnly: true }} />
               </form>
               <TextField
-              style={{padding : '10px 0px'}}
+                style={{ padding: '10px 0px' }}
                 InputProps={{
                   className: classes.input
                 }}
@@ -133,10 +143,11 @@ class MyWallet extends Component {
                 id="price"
                 label="Buying price in dollars for one unit"
                 type="number"
+                value={this.state.isCryptoChanging ? this.state.changingCrypto.boughtPrice : ''}
                 fullWidth
               />
               <TextField
-              style={{padding : '10px 0px'}}
+                style={{ padding: '10px 0px' }}
                 InputProps={{
                   className: classes.input
                 }}
@@ -149,6 +160,7 @@ class MyWallet extends Component {
                 id="number"
                 label="Amount"
                 type="number"
+                value={this.state.isCryptoChanging ? this.state.changingCrypto.amount : ''}
                 fullWidth
               />
             </DialogContent>
@@ -161,11 +173,14 @@ class MyWallet extends Component {
                   this.props.changeCrypto(this.state.changingCryptoId, this.generateNewCurrnecy()).then(() => {
                     showSnackbar('Crypto updated successfully', 'success')
                     this.notEditingCrypto();
+                    this.props.fetchMyWallet()
+                    this.closeDialog()
+                  })
+                } else {
+                  this.props.addNewCurrency(this.generateNewCurrnecy()).then(() => {
+                    this.closeDialog()
                   })
                 }
-                this.props.addNewCurrency(this.generateNewCurrnecy()).then(() => {
-                  this.closeDialog()
-                })
               }}
                 color="primary">
                 {this.state.isCryptoChanging ? 'Update' : 'Add'}

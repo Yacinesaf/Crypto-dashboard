@@ -5,7 +5,7 @@ import DeleteIcon from '@material-ui/icons/Delete';
 import img from '../assets/cryptoBg.png'
 import EditIcon from '@material-ui/icons/Edit';
 
-function OneCrypto({ myCrypto, deletingCrypto, showSnackbar, changeCrypto, openModal, changingCryptoId, editingCrypto }) {
+function OneCrypto({ myCrypto, deletingCrypto, showSnackbar, changeCrypto, openModal, changingCryptoId, editingCrypto, changingCrypto }) {
 
   const useStyles = makeStyles({
     card: {
@@ -68,6 +68,7 @@ function OneCrypto({ myCrypto, deletingCrypto, showSnackbar, changeCrypto, openM
         openModal();
         editingCrypto();
         changingCryptoId(myCrypto.id);
+        changingCrypto(myCrypto)
       }} style={{ color: 'white', paddingLeft: 15, cursor: 'pointer' }} />
 
     </div >

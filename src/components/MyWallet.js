@@ -67,7 +67,7 @@ class MyWallet extends Component {
     this.setState({ changingCryptoId: newId })
   }
   changingCrypto = (obj) => {
-    this.setState({ changingCrypto: obj })
+    this.setState({ symbol: obj.symbol, amountBought: obj.amount, price: obj.boughtPrice })
   }
   editingCrypto = () => {
     this.setState({ isCryptoChanging: true })
@@ -79,6 +79,7 @@ class MyWallet extends Component {
 
   render() {
     const { classes } = this.props
+    console.log(this.state.amountBought)
     return (
       <div style={{ height: '100%' }}>
         <Card style={{ backgroundColor: '#24204b', borderRadius: 20, height: '100%' }}>
@@ -111,7 +112,7 @@ class MyWallet extends Component {
           </Grid>
         </Card>
         <Dialog
-        onExited={()=> this.setState({isCryptoChanging : false})}
+          onExited={() => this.setState({ isCryptoChanging: false })}
           onEscapeKeyDown={this.closeDialog}
           open={this.state.isDialogOpen}
           style={{ backgroundColor: 'rgba(255, 255, 255, 0.5)' }}
@@ -126,7 +127,7 @@ class MyWallet extends Component {
                 <Input
                   style={{ color: 'white' }}
                   endAdornment={<InputAdornment position="end"><ArrowDropDownIcon style={{ color: 'white' }} /></InputAdornment>}
-                  value={this.state.isCryptoChanging ? this.state.changingCrypto.symbol : (this.state.symbol ? this.state.symbol : 'Crypto')}
+                  value={this.state.isCryptoChanging ? this.state.symbol : (this.state.symbol ? this.state.symbol : 'Crypto')}
                   inputProps={{ 'aria-label': 'description', readOnly: true }} />
               </form>
               <TextField
@@ -143,8 +144,8 @@ class MyWallet extends Component {
                 id="price"
                 label="Buying price in dollars for one unit"
                 type="number"
-                value={this.state.isCryptoChanging ? this.state.changingCrypto.boughtPrice : ''}
                 fullWidth
+                value={this.state.price ? this.state.price : ''}
               />
               <TextField
                 style={{ padding: '10px 0px' }}
@@ -160,8 +161,8 @@ class MyWallet extends Component {
                 id="number"
                 label="Amount"
                 type="number"
-                value={this.state.isCryptoChanging ? this.state.changingCrypto.amount : ''}
                 fullWidth
+                value={this.state.amountBought ? this.state.amountBought : ''}
               />
             </DialogContent>
             <DialogActions>

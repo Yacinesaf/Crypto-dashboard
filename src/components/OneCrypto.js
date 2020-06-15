@@ -5,7 +5,7 @@ import DeleteIcon from '@material-ui/icons/Delete';
 import img from '../assets/cryptoBg.png'
 import EditIcon from '@material-ui/icons/Edit';
 
-function OneCrypto({ myCrypto, deletingCrypto, showSnackbar, openEditDialog }) {
+function OneCrypto({ myCrypto, removeCrypto, showSnackbar, openEditDialog }) {
 
   const useStyles = makeStyles({
     card: {
@@ -59,10 +59,9 @@ function OneCrypto({ myCrypto, deletingCrypto, showSnackbar, openEditDialog }) {
       </Card>
       {isDeleting ? <div style={{ paddingLeft: 10 }}><CircularProgress /></div> : <DeleteIcon onClick={() => {
         setIsDeleting(true)
-        deletingCrypto(myCrypto.id).then(() => {
+        removeCrypto(myCrypto.symbol)
           setIsDeleting(false)
           showSnackbar('Deleted successfully', 'success')
-        })
       }} style={{ color: 'white', paddingLeft: 15, cursor: 'pointer' }} />}
       <EditIcon onClick={() => {
         openEditDialog(myCrypto)

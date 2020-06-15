@@ -20,7 +20,11 @@ export default function (state = initialState, action) {
     case 'ADD_CRYPTO':
       return { ...state, currencies: [action.payload, ...state.currencies] }
     case 'UPDATE_CRYPTO':
-      return { ...state, currencies: action.payload }
-
+      const i =  state.currencies.findIndex(x => x.symbol === action.payload.symbol);
+      const copy = [...state.currencies]
+      copy[i] = action.payload
+      return { ...state, currencies: copy }
+    case 'REMOVE_CRYPTO' :
+      return {...state, currencies : state.currencies.filter(x=> x.symbol !== action.payload)}
   }
 }

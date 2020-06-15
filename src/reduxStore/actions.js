@@ -4,8 +4,8 @@ export const addCrypto = (newCurrency) => dispatch => {
   dispatch({ type: 'ADD_CRYPTO', payload: newCurrency })
 }
 
-export const removeCrypto = () => dispatch => {
-  dispatch({ type: 'SET_CURRENCIES', payload: '' })
+export const removeCrypto = (symbol) => dispatch => {
+  dispatch({ type: 'REMOVE_CRYPTO', payload: symbol })
 
 }
 

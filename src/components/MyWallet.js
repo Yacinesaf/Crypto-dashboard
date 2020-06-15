@@ -2,7 +2,6 @@ import React, { Component } from 'react';
 import { Card, Typography, Grid, Dialog, DialogTitle, DialogContent, DialogContentText, TextField, DialogActions, Button, Menu, MenuItem, Input, InputAdornment, IconButton, CircularProgress } from '@material-ui/core';
 import OneCrypto from './OneCrypto';
 import AddCircleIcon from '@material-ui/icons/AddCircle';
-import store from '../reduxStore/store'
 import { addCrypto, fetchMyWallet, removeCrypto, showSnackbar, editCrypto } from '../reduxStore/actions';
 import { connect } from 'react-redux'
 import { nameFormat } from '../services/helperFunctions'
@@ -26,7 +25,7 @@ class MyWallet extends Component {
     this.state = {
       isDialogOpen: false,
       price: null,
-      currency: null,
+      name: null,
       amountBought: null,
       anchorEl: null,
       symbol: null,
@@ -41,7 +40,7 @@ class MyWallet extends Component {
   generateNewCurrnecy() {
     let date = new Date()
     return {
-      name: this.state.currency,
+      name: this.state.name,
       boughtPrice: this.state.price,
       amount: this.state.amountBought,
       symbol: this.state.symbol,
@@ -63,9 +62,18 @@ class MyWallet extends Component {
   notEditingCrypto = () => {
     this.setState({ isCryptoChanging: false })
   }
+  clearDialogFields = () => {
+    this.setState({ amountBought: null, price: null })
+  }
 
   openEditDialog = (currentCrypto) => {
-    this.setState({ symbol: currentCrypto.symbol, price: currentCrypto.boughtPrice, amountBought: currentCrypto.amount, isCryptoChanging: true })
+    this.setState({
+      symbol: currentCrypto.symbol,
+      price: currentCrypto.boughtPrice,
+      amountBought: currentCrypto.amount,
+      isCryptoChanging: true,
+      name: currentCrypto.name
+    })
     this.openDialog();
   }
 
@@ -170,10 +178,11 @@ class MyWallet extends Component {
                   this.notEditingCrypto();
                   this.props.fetchMyWallet();
                   this.closeDialog();
-
+                  this.clearDialogFields();
                 } else {
                   this.props.addCrypto(this.generateNewCurrnecy());
                   this.closeDialog()
+                  this.clearDialogFields();
                 }
               }}
                 color="primary">
@@ -204,7 +213,7 @@ class MyWallet extends Component {
             <MenuItem key={i}
               style={{ width: 214 }}
               onClick={(e) => {
-                this.setState({ symbol: e.currentTarget.innerText, currency: nameFormat(e.currentTarget.innerText) });
+                this.setState({ symbol: e.currentTarget.innerText, name: nameFormat(e.currentTarget.innerText) });
                 this.closeMenu()
               }}
             >

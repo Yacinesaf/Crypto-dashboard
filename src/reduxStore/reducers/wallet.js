@@ -5,7 +5,19 @@ const initialState = {
       boughtPrice: 66,
       name: "Eos",
       symbol: "EOS"
-    }
+    },
+    {
+      amount: 6,
+      boughtPrice: 66,
+      name: "Bitcoin Cash",
+      symbol: "BCH"
+    },
+    {
+      amount: 16,
+      boughtPrice: 65,
+      name: "Ethereum",
+      symbol: "ETH"
+    },
   ],
   fetching: null,
 
@@ -20,6 +32,7 @@ export default function (state = initialState, action) {
     case 'ADD_CRYPTO':
       return { ...state, currencies: [action.payload, ...state.currencies] }
     case 'UPDATE_CRYPTO':
+      console.log(action.payload)
       const i =  state.currencies.findIndex(x => x.symbol === action.payload.symbol);
       const copy = [...state.currencies]
       copy[i] = action.payload

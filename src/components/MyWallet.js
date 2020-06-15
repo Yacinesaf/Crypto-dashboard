@@ -3,7 +3,7 @@ import { Card, Typography, Grid, Dialog, DialogTitle, DialogContent, DialogConte
 import OneCrypto from './OneCrypto';
 import AddCircleIcon from '@material-ui/icons/AddCircle';
 import store from '../reduxStore/store'
-import { addNewCurrency, fetchMyWallet, deletingCrypto, showSnackbar, changeCrypto } from '../reduxStore/actions';
+import { addCrypto, fetchMyWallet, removeCrypto, showSnackbar, editCrypto } from '../reduxStore/actions';
 import { connect } from 'react-redux'
 import { nameFormat } from '../services/helperFunctions'
 import ArrowDropDownIcon from '@material-ui/icons/ArrowDropDown';
@@ -31,10 +31,7 @@ class MyWallet extends Component {
       anchorEl: null,
       symbol: null,
       cryptoFieldValue: 'Crypto',
-      isCryptoChanging: false,
-      changingCryptoId: null,
-      changingCrypto: null,
-
+      isCryptoChanging: false
     }
   }
 
@@ -63,23 +60,18 @@ class MyWallet extends Component {
   closeMenu = () => {
     this.setState({ anchorEl: null })
   }
-  changingCryptoId = (newId) => {
-    this.setState({ changingCryptoId: newId })
-  }
-  changingCrypto = (obj) => {
-    this.setState({ symbol: obj.symbol, amountBought: obj.amount, price: obj.boughtPrice })
-  }
-  editingCrypto = () => {
-    this.setState({ isCryptoChanging: true })
-  }
   notEditingCrypto = () => {
     this.setState({ isCryptoChanging: false })
+  }
+
+  openEditDialog = (currentCrypto) => {
+    this.setState({ symbol: currentCrypto.symbol, price: currentCrypto.boughtPrice, amountBought: currentCrypto.amount, isCryptoChanging: true })
+    this.openDialog();
   }
 
 
   render() {
     const { classes } = this.props
-    console.log(this.state.amountBought)
     return (
       <div style={{ height: '100%' }}>
         <Card style={{ backgroundColor: '#24204b', borderRadius: 20, height: '100%' }}>
@@ -97,12 +89,8 @@ class MyWallet extends Component {
                     <Grid key={i} item xs={12} style={{ padding: '20px 5px', display: 'flex', alignItems: 'center' }}>
                       <OneCrypto
                         showSnackbar={this.props.showSnackbar}
-                        deletingCrypto={this.props.deletingCrypto}
-                        changeCrypto={this.props.changeCrypto}
-                        openModal={this.openDialog}
-                        changingCryptoId={this.changingCryptoId}
-                        editingCrypto={this.editingCrypto}
-                        changingCrypto={this.changingCrypto}
+                        removeCrypto={this.props.removeCrypto}
+                        openEditDialog={this.openEditDialog}
                         myCrypto={x} />
                     </Grid>
                   ))
@@ -123,8 +111,14 @@ class MyWallet extends Component {
               <DialogContentText style={{ color: 'white' }}>
                 Here you can add the crypto currency you want, just fill the fields below.
             </DialogContentText>
-              <form onClick={this.openMenu} style={{ width: 'fit-content', padding: '10px 0px' }}>
+              <form onClick={(e) => {
+                if (!this.state.isCryptoChanging) {
+                  this.openMenu(e);
+                }
+              }}
+                style={{ width: 'fit-content', padding: '10px 0px' }}>
                 <Input
+                  disabled
                   style={{ color: 'white' }}
                   endAdornment={<InputAdornment position="end"><ArrowDropDownIcon style={{ color: 'white' }} /></InputAdornment>}
                   value={this.state.isCryptoChanging ? this.state.symbol : (this.state.symbol ? this.state.symbol : 'Crypto')}
@@ -171,16 +165,15 @@ class MyWallet extends Component {
              </Button>
               <Button style={{ color: 'white' }} onClick={() => {
                 if (this.state.isCryptoChanging) {
-                  this.props.changeCrypto(this.state.changingCryptoId, this.generateNewCurrnecy()).then(() => {
-                    showSnackbar('Crypto updated successfully', 'success')
-                    this.notEditingCrypto();
-                    this.props.fetchMyWallet()
-                    this.closeDialog()
-                  })
+                  this.props.editCrypto(this.generateNewCurrnecy());
+                  showSnackbar('Crypto updated successfully', 'success');
+                  this.notEditingCrypto();
+                  this.props.fetchMyWallet();
+                  this.closeDialog();
+
                 } else {
-                  this.props.addNewCurrency(this.generateNewCurrnecy()).then(() => {
-                    this.closeDialog()
-                  })
+                  this.props.addCrypto(this.generateNewCurrnecy());
+                  this.closeDialog()
                 }
               }}
                 color="primary">
@@ -229,4 +222,4 @@ const mapStateToProps = state => ({
   cryptoes: state.cryptoesPrice.cryptoes,
 })
 
-export default connect(mapStateToProps, { addNewCurrency, fetchMyWallet, deletingCrypto, showSnackbar, changeCrypto })(withStyles(styles)(MyWallet))
+export default connect(mapStateToProps, { addCrypto, fetchMyWallet, removeCrypto, showSnackbar, editCrypto })(withStyles(styles)(MyWallet))

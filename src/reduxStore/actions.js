@@ -1,46 +1,34 @@
-import { createNewCurrency, getMyWallet, getCryptoes, deleteCrypto, editCrypto } from "../services/apiEndpoints"
+import { getCryptoes } from "../services/apiEndpoints"
 
-export const addNewCurrency = (newCurrency) => dispatch => {
-  return createNewCurrency(newCurrency).then(res => {
-    dispatch({ type: 'ADD_CURRENCY', payload: res })
-  })
+export const addCrypto = (newCurrency) => dispatch => {
+  dispatch({ type: 'ADD_CRYPTO', payload: newCurrency })
+}
+
+export const removeCrypto = () => dispatch => {
+  dispatch({ type: 'SET_CURRENCIES', payload: '' })
+
+}
+
+export const editCrypto = (newCrypto) => dispatch => {
+  dispatch({type : 'UPDATE_CRYPTO', payload : newCrypto})
 }
 
 export const fetchMyWallet = () => dispatch => {
-  dispatch({ type: 'SET_FETCHING', payload: true })
-  return getMyWallet().then(res => {
-    dispatch({ type: 'SET_CURRENCIES', payload: res })
-    dispatch({ type: 'SET_FETCHING', payload: false })
-  })
+  // dispatch({ type: 'SET_CURRENCIES', payload: '' })
 }
 
 export const getCryptoesPrices = () => dispatch => {
-  dispatch({ type: 'SET_FETCHING_PRICES', payload: true })
-  return getCryptoes().then(res => {
-    dispatch({ type: 'SET_CRYPTOES', payload: res.data })
-    dispatch({ type: 'SET_FETCHING_PRICES', payload: false })
-  })
-}
-
-export const deletingCrypto = (id) => dispatch => {
-  dispatch({ type: 'SET_FETCHING', payload: true })
-  return deleteCrypto(id).then(() => {
-    return getMyWallet().then(res => {
-      dispatch({ type: 'SET_CURRENCIES', payload: res })
-      dispatch({ type: 'SET_FETCHING', payload: false })
-    })
-  })
+dispatch({ type: 'SET_FETCHING_PRICES', payload: true })
+return getCryptoes().then(res => {
+  dispatch({ type: 'SET_CRYPTOES', payload: res.data })
+  dispatch({ type: 'SET_FETCHING_PRICES', payload: false })
+})
 }
 
 export const showSnackbar = (message, color) => dispatch => {
   dispatch({ type: 'SHOW_SNACKBAR', payload: { show: true, message, color } });
 }
 
-export const changeCrypto = (id, obj) => dispatch => {
-  return editCrypto(id, obj)
-}
-
 export const hideSnackbar = () => dispatch => {
   dispatch({ type: 'HIDE_SNACKBAR' })
 }
-

@@ -1,5 +1,12 @@
 const initialState = {
-  currencies: [],
+  currencies: [
+    {
+      amount: 6,
+      boughtPrice: 66,
+      name: "Eos",
+      symbol: "EOS"
+    }
+  ],
   fetching: null,
 
 }
@@ -10,13 +17,10 @@ export default function (state = initialState, action) {
 
     case 'SET_FETCHING':
       return { ...state, fetching: action.payload }
-    case 'ADD_CURRENCY':
-      return { ...state, currencies: [...state.currencies, action.payload] }
-    case 'SET_CURRENCIES':
+    case 'ADD_CRYPTO':
+      return { ...state, currencies: [action.payload, ...state.currencies] }
+    case 'UPDATE_CRYPTO':
       return { ...state, currencies: action.payload }
-    // case 'UPDATE_MY_CRYPTO':
-    //   return { ...state, currencies: action.payload }
-      
 
   }
 }

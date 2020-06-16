@@ -32,3 +32,7 @@ export const showSnackbar = (message, color) => dispatch => {
 export const hideSnackbar = () => dispatch => {
   dispatch({ type: 'HIDE_SNACKBAR' })
 }
+
+export const setLabel = (label) => dispatch => {
+  dispatch({type : 'SET_LABEL', payload : label})
+}

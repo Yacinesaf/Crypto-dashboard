@@ -6,7 +6,7 @@ function getCryptoes() {
 }
 
 function getDailyPrices() {
-  return axios.get('https://www.alphavantage.co/query?function=TIME_SERIES_DAILY&symbol=BTC&apikey=FN5ZAJQJGFO3AHG8')
+  return axios.get('https://www.alphavantage.co/query?function=DIGITAL_CURRENCY_DAILY&symbol=BTC&market=CAD&apikey=FN5ZAJQJGFO3AHG8')
     .then(res => console.log(res))
 }
 

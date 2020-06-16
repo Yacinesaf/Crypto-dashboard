@@ -8,7 +8,7 @@ import { nameFormat } from '../services/helperFunctions'
 import ArrowDropDownIcon from '@material-ui/icons/ArrowDropDown';
 import emptystate from '../assets/emptystate.svg'
 import { withStyles } from "@material-ui/core/styles";
-
+import { getDailyPrices } from '../services/apiEndpoints'
 
 const styles = {
   root: {
@@ -35,6 +35,7 @@ class MyWallet extends Component {
   }
 
   componentDidMount() {
+    getDailyPrices()
     this.props.fetchMyWallet()
   }
   generateNewCurrnecy() {

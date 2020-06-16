@@ -5,7 +5,12 @@ function getCryptoes() {
     .then(res => res)
 }
 
+function getDailyPrices() {
+  return axios.get('https://www.alphavantage.co/query?function=TIME_SERIES_DAILY&symbol=BTC&apikey=FN5ZAJQJGFO3AHG8')
+    .then(res => console.log(res))
+}
 
 export {
   getCryptoes,
+  getDailyPrices
 }

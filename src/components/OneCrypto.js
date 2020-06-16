@@ -45,12 +45,15 @@ function OneCrypto({ myCrypto, removeCrypto, showSnackbar, openEditDialog }) {
               </div>
             </div>
           </Grid>
+          <Grid item style={{display : 'flex', alignItems : 'center'}}>
+            <Typography variant='h6' style={{ fontWeight: 550, textAlign : 'center' }} className={classes.typo}>{myCrypto.name}</Typography>
+          </Grid>
           <Grid item>
             <div style={{ display: 'flex', alignItems: 'center', textAlign: 'right' }}>
-              <Typography variant='h6' style={{ paddingRight: 3 }} className={classes.typo} >{`${myCrypto.amount}`}</Typography>
-              <Typography variant='caption' className={classes.typo} >{`${myCrypto.symbol}`}</Typography>
+              <Typography variant='h5' style={{ paddingRight: 3, fontWeight: 600 }} className={classes.typo} >{`${myCrypto.amount}`}</Typography>
+              <Typography variant='body1' style={{ fontWeight: 600 }} className={classes.typo} >{`${myCrypto.symbol}`}</Typography>
             </div>
-            <Typography variant='h5' className={classes.typo} >{`$${myCrypto.boughtPrice}`}</Typography>
+            <Typography variant='body1' style={{ textAlign: 'right' }} className={classes.typo} >{`$${myCrypto.boughtPrice}`}</Typography>
           </Grid>
         </Grid>
       </Card>

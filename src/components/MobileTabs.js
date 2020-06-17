@@ -3,20 +3,16 @@ import Paper from '@material-ui/core/Paper';
 import Tabs from '@material-ui/core/Tabs';
 import Tab from '@material-ui/core/Tab';
 
-function MobileTabs(props) {
-  const [value, setValue] = React.useState(2);
-
-  const handleChange = (event, newValue) => {
-    setValue(newValue);
-  };
+function MobileTabs({ tabValue, tabSwitch }) {
 
   return (
-    <Paper square>
+    <Paper square style={{ position: 'fixed', bottom: 0, width: '100%' }}>
       <Tabs
-        value={value}
+        variant="fullWidth"
+        value={tabValue}
         indicatorColor="primary"
         textColor="primary"
-        onChange={handleChange}
+        onChange={tabSwitch}
         aria-label="disabled tabs example"
       >
         <Tab label="Wallet" />

@@ -1,16 +1,26 @@
-import React, { useState } from 'react';
+import React, { Component } from 'react';
 import { Line } from 'react-chartjs-2'
 import store from '../reduxStore/store'
+import { connect } from 'react-redux'
+import { Button, Menu, MenuItem } from '@material-ui/core';
 
 
-function ChartVariations(props) {
-  console.log(store.getState())
-  const lineGraph = () => {
+class ChartVariations extends Component {
+
+  constructor() {
+    super()
+    this.state = {
+      period: 'Yearly',
+      anchorEl: null
+    }
+  }
+
+  lineGraph = () => {
     const data = {
       labels: ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'],
       datasets: [
         {
-          label: store.getState().chart.label,
+          label: this.props.label,
           fill: false,
           lineTension: 0.1,
           backgroundColor: 'rgba(75,192,192,0.4)',
@@ -35,17 +45,49 @@ function ChartVariations(props) {
     return <Line data={data} width={800} height={300} options={{ maintainAspectRatio: false }} />
   }
 
+  closeMenu = () => {
+    this.setState({ anchorEl: null })
+  }
+  openMenu = (e) => {
+    this.setState({ anchorEl: e.currentTarget })
+  }
 
-
-
-  return (
-    <div>
-      
-      <div style={{ paddingTop: 20 }}>
-        {lineGraph()}
+  render() {
+    return (
+      <div>
+        <Button onClick={this.openMenu} style={{color : 'white', float : 'right'}}>{this.state.period}</Button>
+        <Menu
+          anchorEl={this.state.anchorEl}
+          keepMounted
+          open={Boolean(this.state.anchorEl)}
+          onClose={this.closeMenu}
+          getContentAnchorEl={null}
+          anchorOrigin={{
+            vertical: 'bottom',
+            horizontal: 'center',
+          }}
+          transformOrigin={{
+            vertical: 'top',
+            horizontal: 'center',
+          }}
+          elevation={4}>
+          <MenuItem onClick={()=> {this.setState({period : 'Yearly'});this.closeMenu();}}>Yearly</MenuItem>
+          <MenuItem onClick={()=> {this.setState({period : 'Monthly'});this.closeMenu();}}>Monthly</MenuItem>
+          <MenuItem onClick={()=> {this.setState({period : 'Daily'});this.closeMenu();}}>Daily</MenuItem>
+        </Menu>
+        <div style={{ paddingTop: 20 }}>
+          {this.lineGraph()}
+        </div>
       </div>
-    </div>
-  );
+    );
+  }
 }
+const mapStateToProps = (state) => ({
+  label: state.chart.label
+})
 
-export default ChartVariations;
+export default connect(mapStateToProps)(ChartVariations)
+
+
+
+

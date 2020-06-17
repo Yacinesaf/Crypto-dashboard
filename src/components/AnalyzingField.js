@@ -3,8 +3,12 @@ import { Paper, Typography, Grid } from '@material-ui/core';
 import emptystate from '../assets/undraw_crypto_portfolio_2jy5.svg'
 import { makeStyles } from '@material-ui/core/styles';
 import store from '../reduxStore/store'
+import { useTheme } from '@material-ui/core/styles';
+import useMediaQuery from '@material-ui/core/useMediaQuery';
 
 function AnalyzingField(props) {
+  const theme = useTheme();
+  const xsOnly = useMediaQuery(theme.breakpoints.only('xs'));
   const useStyles = makeStyles({
     typo: {
       color: 'white',
@@ -18,10 +22,18 @@ function AnalyzingField(props) {
 
   const classes = useStyles();
   return (
-    <div style={{ width: '100%' }}>
-      <Paper className={classes.div} style={{ backgroundColor: '#24204b', borderRadius: 20, padding: 60, alignItems: 'center' }}>
+    <div style={{ width: '100%', height: xsOnly ? 'calc(100vh - 88px)' : 'unset' }}>
+      <Paper
+        className={classes.div}
+        style={{
+          backgroundColor: '#24204b',
+          borderRadius: 20,
+          padding: xsOnly ? 30 : 60,
+          alignItems: 'center',
+          height: xsOnly ? 'calc(100% - 60px)' : 'unset',
+        }}>
         {store.getState().wallet.currencies.length > 0 ?
-          <Grid container justify='space-between'>
+          <Grid container justify={xsOnly ? 'center' : 'space-between'}>
             <Grid item>
               <div className={classes.div} >
                 <Typography className={classes.typo} style={{ color: 'white' }}>Gross</Typography>

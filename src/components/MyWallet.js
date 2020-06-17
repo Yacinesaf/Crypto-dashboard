@@ -35,7 +35,7 @@ class MyWallet extends Component {
   }
 
   componentDidMount() {
-    getDailyPrices()
+    // getDailyPrices()
     this.props.fetchMyWallet()
   }
   generateNewCurrnecy() {

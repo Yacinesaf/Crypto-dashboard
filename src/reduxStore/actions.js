@@ -1,4 +1,4 @@
-import { getCryptoes } from "../services/apiEndpoints"
+import { getCryptoes, getDailyPrices } from "../services/apiEndpoints"
 
 export const addCrypto = (newCurrency) => dispatch => {
   dispatch({ type: 'ADD_CRYPTO', payload: newCurrency })
@@ -10,7 +10,7 @@ export const removeCrypto = (symbol) => dispatch => {
 }
 
 export const editCrypto = (newCrypto) => dispatch => {
-  dispatch({type : 'UPDATE_CRYPTO', payload : newCrypto})
+  dispatch({ type: 'UPDATE_CRYPTO', payload: newCrypto })
 }
 
 export const fetchMyWallet = () => dispatch => {
@@ -18,11 +18,16 @@ export const fetchMyWallet = () => dispatch => {
 }
 
 export const getCryptoesPrices = () => dispatch => {
-dispatch({ type: 'SET_FETCHING_PRICES', payload: true })
-return getCryptoes().then(res => {
-  dispatch({ type: 'SET_CRYPTOES', payload: res.data })
-  dispatch({ type: 'SET_FETCHING_PRICES', payload: false })
-})
+  dispatch({ type: 'SET_FETCHING_PRICES', payload: true })
+  return getCryptoes().then(res => {
+    let cryptoKeys = Object.keys(res.data)
+    dispatch({ type: 'SET_CRYPTOES', payload: res.data })
+    getDailyPrices(cryptoKeys).then(res => {
+      console.log(res)
+      // dispatch({ type: 'SET_DAILY', payload: res.data })
+      dispatch({ type: 'SET_FETCHING_PRICES', payload: false })
+    })
+  })
 }
 
 export const showSnackbar = (message, color) => dispatch => {
@@ -34,5 +39,5 @@ export const hideSnackbar = () => dispatch => {
 }
 
 export const setLabel = (label) => dispatch => {
-  dispatch({type : 'SET_LABEL', payload : label})
+  dispatch({ type: 'SET_LABEL', payload: label })
 }

@@ -4,6 +4,7 @@ import { Typography } from '@material-ui/core';
 import MyWallet from './MyWallet';
 import AnalyzingField from './AnalyzingField';
 import ChartVariations from './ChartVariations';
+import {getCryptoesPrices} from '../reduxStore/actions'
 
 class Mobile extends Component {
   constructor() {
@@ -12,6 +13,11 @@ class Mobile extends Component {
       tabValue: 0
     }
   }
+
+  componentDidMount(){
+    getCryptoesPrices()
+  }
+
   tabSwitch = (event, newValue) => {
     this.setState({ tabValue: newValue });
   };

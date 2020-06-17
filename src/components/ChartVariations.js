@@ -24,12 +24,12 @@ class ChartVariations extends Component {
           fill: false,
           lineTension: 0.1,
           backgroundColor: 'rgba(75,192,192,0.4)',
-          borderColor: 'rgba(75,192,192,1)',
-          borderCapStyle: 'butt',
+          borderColor: 'white',
+          borderCapStyle: 'round',
           borderDash: [],
           borderDashOffset: 0.0,
-          borderJoinStyle: 'miter',
-          pointBorderColor: 'rgba(75,192,192,1)',
+          borderJoinStyle: 'round',
+          pointBorderColor: 'white',
           pointBackgroundColor: '#fff',
           pointBorderWidth: 1,
           pointHoverRadius: 5,
@@ -38,7 +38,7 @@ class ChartVariations extends Component {
           pointHoverBorderWidth: 2,
           pointRadius: 1,
           pointHitRadius: 10,
-          data: store.getState().chart.currencyFlow
+          data: [4552, 5584, 12535, 412, 6566, 3212]
         }
       ]
     };
@@ -53,6 +53,7 @@ class ChartVariations extends Component {
   }
 
   render() {
+    console.log(this.props.daily)
     return (
       <div>
         <Button onClick={this.openMenu} style={{color : 'white', float : 'right'}}>{this.state.period}</Button>
@@ -83,7 +84,8 @@ class ChartVariations extends Component {
   }
 }
 const mapStateToProps = (state) => ({
-  label: state.chart.label
+  label: state.chart.label,
+  daily : state.chart.dailyPrices
 })
 
 export default connect(mapStateToProps)(ChartVariations)

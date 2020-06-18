@@ -4,7 +4,8 @@ import { Typography } from '@material-ui/core';
 import MyWallet from './MyWallet';
 import AnalyzingField from './AnalyzingField';
 import ChartVariations from './ChartVariations';
-import {getCryptoesPrices} from '../reduxStore/actions'
+import { connect } from 'react-redux'
+import { getCryptoesPrices } from '../reduxStore/actions'
 
 class Mobile extends Component {
   constructor() {
@@ -14,8 +15,8 @@ class Mobile extends Component {
     }
   }
 
-  componentDidMount(){
-    getCryptoesPrices()
+  componentDidMount() {
+    this.props.getCryptoesPrices()
   }
 
   tabSwitch = (event, newValue) => {
@@ -50,4 +51,8 @@ class Mobile extends Component {
   }
 }
 
-export default Mobile;
+const mapStateToProps = state => ({
+  cryptoes: state.cryptoesPrice.cryptoes,
+})
+
+export default connect(mapStateToProps, { getCryptoesPrices })(Mobile);

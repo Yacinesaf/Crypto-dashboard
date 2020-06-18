@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import { Line } from 'react-chartjs-2'
 import store from '../reduxStore/store'
 import { connect } from 'react-redux'
+import {getCryptoesDailyPrices} from '../reduxStore/actions'
 import { Button, Menu, MenuItem } from '@material-ui/core';
 
 
@@ -13,6 +14,10 @@ class ChartVariations extends Component {
       period: 'Yearly',
       anchorEl: null
     }
+  }
+
+  componentDidMount() {
+    this.props.getCryptoesDailyPrices()
   }
 
   lineGraph = () => {
@@ -53,7 +58,6 @@ class ChartVariations extends Component {
   }
 
   render() {
-    console.log(this.props.daily)
     return (
       <div>
         <Button onClick={this.openMenu} style={{color : 'white', float : 'right'}}>{this.state.period}</Button>
@@ -88,7 +92,7 @@ const mapStateToProps = (state) => ({
   daily : state.chart.dailyPrices
 })
 
-export default connect(mapStateToProps)(ChartVariations)
+export default connect(mapStateToProps, {getCryptoesDailyPrices})(ChartVariations)
 
 
 

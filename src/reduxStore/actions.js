@@ -20,13 +20,13 @@ export const fetchMyWallet = () => dispatch => {
 export const getCryptoesPrices = () => dispatch => {
   dispatch({ type: 'SET_FETCHING_PRICES', payload: true })
   return getCryptoes().then(res => {
-    let cryptoKeys = Object.keys(res.data)
-    dispatch({ type: 'SET_CRYPTOES', payload: res.data })
-    getDailyPrices(cryptoKeys).then(res => {
-      console.log(res)
-      // dispatch({ type: 'SET_DAILY', payload: res.data })
-      dispatch({ type: 'SET_FETCHING_PRICES', payload: false })
-    })
+    dispatch({ type: 'SET_CRYPTOES', payload: res })
+  })
+}
+
+export const getCryptoesDailyPrices = () => dispatch => {
+  return getDailyPrices().then(res => {
+    console.log(res)
   })
 }
 

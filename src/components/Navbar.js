@@ -3,7 +3,7 @@ import { AppBar, Typography, Grid, Button, Menu, MenuItem } from '@material-ui/c
 import ArrowDropDownIcon from '@material-ui/icons/ArrowDropDown';
 import { nameFormat } from '../services/helperFunctions'
 import store from '../reduxStore/store'
-import { setLabel } from '../reduxStore/actions'
+import { setLabel, setSymbol } from '../reduxStore/actions'
 import { connect } from 'react-redux'
 
 
@@ -62,6 +62,7 @@ class Navbar extends Component {
                       currencyFlow: this.generateCurrencyNumbers()
                     })
                     this.props.setLabel(nameFormat(e.currentTarget.innerText))
+                    this.props.setSymbol(e.currentTarget.innerText)
                   }}
                 >
                   <Typography>{x}</Typography>
@@ -78,4 +79,4 @@ class Navbar extends Component {
 const mapStateToProps = () => ({
 })
 
-export default connect(mapStateToProps, { setLabel })(Navbar)
+export default connect(mapStateToProps, { setLabel, setSymbol })(Navbar)

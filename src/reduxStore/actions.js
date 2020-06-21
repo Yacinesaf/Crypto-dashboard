@@ -1,4 +1,4 @@
-import { getCryptoes, getDailyPrices } from "../services/apiEndpoints"
+import { getCryptoes, getMonthlyPrices } from "../services/apiEndpoints"
 
 export const addCrypto = (newCurrency) => dispatch => {
   dispatch({ type: 'ADD_CRYPTO', payload: newCurrency })
@@ -24,9 +24,11 @@ export const getCryptoesPrices = () => dispatch => {
   })
 }
 
-export const getCryptoesDailyPrices = () => dispatch => {
-  return getDailyPrices().then(res => {
-    console.log(res)
+export const getCryptoesMonthlyPrices = () => dispatch => {
+  dispatch({type : 'SET_FETCHING_PRICES', payload : true})
+  return getMonthlyPrices().then(res => {
+    dispatch({type : 'SET_MONTHLY', payload : res})
+    dispatch({type : 'SET_FETCHING_PRICES', payload : false})
   })
 }
 
@@ -40,4 +42,7 @@ export const hideSnackbar = () => dispatch => {
 
 export const setLabel = (label) => dispatch => {
   dispatch({ type: 'SET_LABEL', payload: label })
+}
+export const setSymbol = (symbol) => dispatch => {
+  dispatch({ type: 'SET_LABEL', payload: symbol })
 }

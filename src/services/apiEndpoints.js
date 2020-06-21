@@ -8,11 +8,13 @@ function getCryptoes() {
     .then(res => res.data)
 }
 
-function getDailyPrices() {
+function getMonthlyPrices() {
   const promises = cryptoes.map(symbol => {
-    return axios.get(`https://www.alphavantage.co/query?function=DIGITAL_CURRENCY_DAILY&symbol=${symbol}&market=CAD&apikey=FN5ZAJQJGFO3AHG8`)
+    
+    return axios.get(`https://www.alphavantage.co/query?function=DIGITAL_CURRENCY_MONTHLY&symbol=${symbol}&market=CAD&apikey=FN5ZAJQJGFO3AHG8`)
       .then(res => {
-        const series = res.data['Time Series (Digital Currency Daily)'];
+        console.log(res.data)
+        const series = res.data['Time Series (Digital Currency Monthly)'];
         return Object.keys(series).map(x => {
           const avg = (parseFloat(series[x]['2a. high (CAD)']) + parseFloat(series[x]['3a. low (CAD)'])) / 2
           return { day: x, price: avg }
@@ -30,5 +32,5 @@ function getDailyPrices() {
 
 export {
   getCryptoes,
-  getDailyPrices
+  getMonthlyPrices
 }

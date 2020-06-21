@@ -1,6 +1,6 @@
 const initialState = {
-  currencyFlow : null,
   label : 'Bitcoin',
+  symbol : 'BTC'
 
 }
 
@@ -10,5 +10,7 @@ export default function (state = initialState, action) {
 
     case 'SET_LABEL':
       return { ...state, label: action.payload }
+    case 'SET_SYMBOL':
+      return { ...state, symbol: action.payload }
   }
 }

@@ -2,9 +2,9 @@ import React, { Component } from 'react';
 import { Line } from 'react-chartjs-2'
 import store from '../reduxStore/store'
 import { connect } from 'react-redux'
-import {getCryptoesDailyPrices} from '../reduxStore/actions'
+import { getCryptoesMonthlyPrices } from '../reduxStore/actions'
 import { Button, Menu, MenuItem } from '@material-ui/core';
-
+import '../style.css'
 
 class ChartVariations extends Component {
 
@@ -17,7 +17,7 @@ class ChartVariations extends Component {
   }
 
   componentDidMount() {
-    this.props.getCryptoesDailyPrices()
+    this.props.getCryptoesMonthlyPrices()
   }
 
   lineGraph = () => {
@@ -43,7 +43,7 @@ class ChartVariations extends Component {
           pointHoverBorderWidth: 2,
           pointRadius: 1,
           pointHitRadius: 10,
-          data: [4552, 5584, 12535, 412, 6566, 3212]
+          data: this.props.monthly[this.props.symbol]
         }
       ]
     };
@@ -60,7 +60,7 @@ class ChartVariations extends Component {
   render() {
     return (
       <div>
-        <Button onClick={this.openMenu} style={{color : 'white', float : 'right'}}>{this.state.period}</Button>
+        <Button onClick={this.openMenu} style={{ color: 'white', float: 'right' }}>{this.state.period}</Button>
         <Menu
           anchorEl={this.state.anchorEl}
           keepMounted
@@ -76,23 +76,30 @@ class ChartVariations extends Component {
             horizontal: 'center',
           }}
           elevation={4}>
-          <MenuItem onClick={()=> {this.setState({period : 'Yearly'});this.closeMenu();}}>Yearly</MenuItem>
-          <MenuItem onClick={()=> {this.setState({period : 'Monthly'});this.closeMenu();}}>Monthly</MenuItem>
-          <MenuItem onClick={()=> {this.setState({period : 'Daily'});this.closeMenu();}}>Daily</MenuItem>
+          <MenuItem onClick={() => { this.setState({ period: 'Yearly' }); this.closeMenu(); }}>Yearly</MenuItem>
+          <MenuItem onClick={() => { this.setState({ period: 'Monthly' }); this.closeMenu(); }}>Monthly</MenuItem>
+          <MenuItem onClick={() => { this.setState({ period: 'Daily' }); this.closeMenu(); }}>Daily</MenuItem>
         </Menu>
-        <div style={{ paddingTop: 20 }}>
-          {this.lineGraph()}
-        </div>
+        {this.props.isFetching ?
+          <button className='loadingChart'></button>
+          :
+          <div style={{ paddingTop: 20 }}>
+            {this.lineGraph()}
+          </div>
+        }
+
       </div>
     );
   }
 }
 const mapStateToProps = (state) => ({
   label: state.chart.label,
-  daily : state.chart.dailyPrices
+  symbol: state.chart.symbol,
+  monthly: state.cryptoesPrice.monthlyPrices,
+  isFetching: state.cryptoesPrice.fetchingPrices
 })
 
-export default connect(mapStateToProps, {getCryptoesDailyPrices})(ChartVariations)
+export default connect(mapStateToProps, { getCryptoesMonthlyPrices })(ChartVariations)
 
 
 

@@ -3,8 +3,7 @@ import { act } from "react-dom/test-utils"
 const initialState = {
   cryptoes: {},
   fetchingPrices: true,
-  dailyPrices: []
-
+  monthlyPrices: null,
 }
 
 export default function (state = initialState, action) {
@@ -15,7 +14,7 @@ export default function (state = initialState, action) {
       return { ...state, cryptoes: action.payload }
     case 'SET_FETCHING_PRICES':
       return { ...state, fetchingPrices: action.payload }
-    case 'SET_DAILY':
-      return { ...state, dailyPrices: [...state.dailyPrices, action.payload] }
+    case 'SET_MONTHLY':
+      return { ...state, dailyPrices: action.payload }
   }
 }

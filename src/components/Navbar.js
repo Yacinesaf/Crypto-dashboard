@@ -8,15 +8,9 @@ import { connect } from 'react-redux'
 
 
 class Navbar extends Component {
-  generateCurrencyNumbers = () => {
-    return [0, 1, 2, 3, 4, 5, 6].map(x => {
-      return parseFloat((Math.random() * 40000).toFixed(2))
-    })
-  }
   constructor() {
     super()
     this.state = {
-      currencyFlow: this.generateCurrencyNumbers(),
       label: 'Bitcoin',
       symbol: null,
       anchorEl: null
@@ -59,7 +53,6 @@ class Navbar extends Component {
                       symbol: e.currentTarget.innerText,
                       anchorEl: null,
                       label: nameFormat(e.currentTarget.innerText),
-                      currencyFlow: this.generateCurrencyNumbers()
                     })
                     this.props.setLabel(nameFormat(e.currentTarget.innerText))
                     this.props.setSymbol(e.currentTarget.innerText)

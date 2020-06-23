@@ -20,7 +20,9 @@ export const fetchMyWallet = () => dispatch => {
 export const getCryptoesPrices = () => dispatch => {
   dispatch({ type: 'SET_FETCHING_PRICES', payload: true })
   return getCryptoes().then(res => {
-    dispatch({ type: 'SET_CRYPTOES', payload: res })
+    // dispatch({ type: 'SET_CRYPTOES', payload: res })
+    dispatch({ type: 'SET_FETCHING_PRICES', payload: false })
+
   })
 }
 
@@ -44,5 +46,5 @@ export const setLabel = (label) => dispatch => {
   dispatch({ type: 'SET_LABEL', payload: label })
 }
 export const setSymbol = (symbol) => dispatch => {
-  dispatch({ type: 'SET_LABEL', payload: symbol })
+  dispatch({ type: 'SET_SYMBOL', payload: symbol })
 }

@@ -13,7 +13,9 @@ function getMonthlyPrices() {
     
     return axios.get(`https://www.alphavantage.co/query?function=DIGITAL_CURRENCY_MONTHLY&symbol=${symbol}&market=CAD&apikey=FN5ZAJQJGFO3AHG8`)
       .then(res => {
-        console.log(res.data)
+        if(res.data.Note){
+          return null
+        }
         const series = res.data['Time Series (Digital Currency Monthly)'];
         return Object.keys(series).map(x => {
           const avg = (parseFloat(series[x]['2a. high (CAD)']) + parseFloat(series[x]['3a. low (CAD)'])) / 2

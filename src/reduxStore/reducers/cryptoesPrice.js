@@ -1,7 +1,7 @@
-import { act } from "react-dom/test-utils"
-
 const initialState = {
-  cryptoes: {},
+  cryptoes: {
+    BTC : {CAD : 12085}
+  },
   fetchingPrices: true,
   monthlyPrices: null,
 }
@@ -15,6 +15,6 @@ export default function (state = initialState, action) {
     case 'SET_FETCHING_PRICES':
       return { ...state, fetchingPrices: action.payload }
     case 'SET_MONTHLY':
-      return { ...state, dailyPrices: action.payload }
+      return { ...state, monthlyPrices: action.payload }
   }
 }

@@ -9,6 +9,12 @@ const initialState = {
     {
       amount: 6,
       boughtPrice: 66,
+      name: "Bitcoin",
+      symbol: "BTC"
+    },
+    {
+      amount: 6,
+      boughtPrice: 66,
       name: "Bitcoin Cash",
       symbol: "BCH"
     },

@@ -1,9 +1,7 @@
 import React, { Component } from 'react';
 import { Line } from 'react-chartjs-2'
-import store from '../reduxStore/store'
 import { connect } from 'react-redux'
 import { getCryptoesMonthlyPrices } from '../reduxStore/actions'
-import { Button, Menu, MenuItem } from '@material-ui/core';
 import '../style.css'
 
 class ChartVariations extends Component {
@@ -20,9 +18,25 @@ class ChartVariations extends Component {
     this.props.getCryptoesMonthlyPrices()
   }
 
+  monthLoop = (arr) => {
+    let monthsArr = arr.map(x => {
+      let splited = x.day.split('-')
+      splited.pop()
+      return splited.join('-')
+    })
+    return monthsArr.reverse()
+  }
+  monthLoopData = (arr) => {
+    let monthsArr = arr.map(x => {
+
+      return x.price
+    })
+    return monthsArr
+  }
+
   lineGraph = () => {
     const data = {
-      labels: ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'],
+      labels: this.monthLoop(this.props.monthly[this.props.symbol]),
       datasets: [
         {
           label: this.props.label,
@@ -43,11 +57,11 @@ class ChartVariations extends Component {
           pointHoverBorderWidth: 2,
           pointRadius: 1,
           pointHitRadius: 10,
-          data: this.props.monthly[this.props.symbol]
+          data: this.monthLoopData(this.props.monthly[this.props.symbol])
         }
       ]
     };
-    return <Line data={data} width={800} height={300} options={{ maintainAspectRatio: false }} />
+    return <Line responsive data={data} width={800} options={{ maintainAspectRatio: false }} />
   }
 
   closeMenu = () => {
@@ -60,34 +74,13 @@ class ChartVariations extends Component {
   render() {
     return (
       <div>
-        <Button onClick={this.openMenu} style={{ color: 'white', float: 'right' }}>{this.state.period}</Button>
-        <Menu
-          anchorEl={this.state.anchorEl}
-          keepMounted
-          open={Boolean(this.state.anchorEl)}
-          onClose={this.closeMenu}
-          getContentAnchorEl={null}
-          anchorOrigin={{
-            vertical: 'bottom',
-            horizontal: 'center',
-          }}
-          transformOrigin={{
-            vertical: 'top',
-            horizontal: 'center',
-          }}
-          elevation={4}>
-          <MenuItem onClick={() => { this.setState({ period: 'Yearly' }); this.closeMenu(); }}>Yearly</MenuItem>
-          <MenuItem onClick={() => { this.setState({ period: 'Monthly' }); this.closeMenu(); }}>Monthly</MenuItem>
-          <MenuItem onClick={() => { this.setState({ period: 'Daily' }); this.closeMenu(); }}>Daily</MenuItem>
-        </Menu>
         {this.props.isFetching ?
           <button className='loadingChart'></button>
           :
-          <div style={{ paddingTop: 20 }}>
+          <div style={{ paddingTop: 20, position : 'relative', minHeight : 300, height : '100%' }}>
             {this.lineGraph()}
           </div>
         }
-
       </div>
     );
   }

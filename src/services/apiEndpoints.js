@@ -18,7 +18,7 @@ function getMonthlyPrices() {
         }
         const series = res.data['Time Series (Digital Currency Monthly)'];
         return Object.keys(series).map(x => {
-          const avg = (parseFloat(series[x]['2a. high (CAD)']) + parseFloat(series[x]['3a. low (CAD)'])) / 2
+          const avg = ((parseFloat(series[x]['2a. high (CAD)']) + parseFloat(series[x]['3a. low (CAD)'])) / 2).toFixed(2)
           return { day: x, price: avg }
         })
       })

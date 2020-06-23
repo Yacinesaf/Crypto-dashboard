@@ -22,10 +22,7 @@ class Navbar extends Component {
         <Grid container justify='center'>
           <Grid item xs={10} style={{ paddingTop: 40, display: 'flex', alignItems: 'center' }}>
             <Typography variant='h4' style={{ color: 'white', flexGrow: 1 }}>Dashboard</Typography>
-            <Button variant='outlined' color='inherit' style={{ color: 'white' }}>
-              All Out
-              </Button>
-            <Button variant='outlined' color='inherit' style={{ color: 'white', marginLeft : 20 }} onClick={(e) => this.setState({ anchorEl: e.currentTarget })}>
+            <Button  color='inherit' style={{ color: 'white', border : '3px solid white'}} onClick={(e) => this.setState({ anchorEl: e.currentTarget })}>
               {this.state.symbol ? this.state.symbol : 'BTC'}
               <ArrowDropDownIcon style={{ color: 'white' }} />
             </Button>

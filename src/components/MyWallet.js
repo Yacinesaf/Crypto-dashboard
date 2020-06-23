@@ -35,7 +35,6 @@ class MyWallet extends Component {
   }
 
   componentDidMount() {
-    // getDailyPrices()
     this.props.fetchMyWallet()
   }
   generateNewCurrnecy() {
@@ -78,8 +77,13 @@ class MyWallet extends Component {
     this.openDialog();
   }
 
+  addFromVerification = () => {
+    return Boolean(this.props.symbol && this.props.amountBought && this.props.price)
+  }
+
 
   render() {
+    console.log(this.addFromVerification())
     const { classes } = this.props
     return (
       <div style={{ height: '100%' }}>
@@ -172,7 +176,7 @@ class MyWallet extends Component {
               <Button style={{ color: 'white' }} onClick={this.closeDialog} color="primary">
                 Cancel
              </Button>
-              <Button style={{ color: 'white' }} onClick={() => {
+              <Button disabled = {this.addFromVerification} style={{ color: 'white' }} onClick={() => {
                 if (this.state.isCryptoChanging) {
                   this.props.editCrypto(this.generateNewCurrnecy());
                   showSnackbar('Crypto updated successfully', 'success');

@@ -3,14 +3,34 @@ import { Paper, Typography, Grid } from '@material-ui/core';
 import emptystate from '../assets/undraw_crypto_portfolio_2jy5.svg'
 import store from '../reduxStore/store'
 import { connect } from 'react-redux'
-
+import '../style.css'
 
 class AnalyzingField extends Component {
 
   grossPrice = (symbol) => {
-    console.log(symbol)
     let filtered = this.props.myCryptoes.filter(x => x.symbol === symbol)
     return (filtered[0].amount * this.props.prices[symbol].CAD).toFixed(2)
+  }
+
+  feeCalculation = (gross) => {
+    return (gross * (0.26 / 100)).toFixed(2)
+  }
+
+  netPrice = (gross, fees) => {
+    return (gross - fees).toFixed(2)
+  }
+
+  profit = (netPrice, symbol) => {
+    let filtered = this.props.myCryptoes.filter(x => x.symbol === symbol);
+    let buyingPrice = filtered[0].boughtPrice;
+    return (netPrice - buyingPrice).toFixed(2)
+  }
+
+  profitPercentage = (netPrice, symbol) => {
+    let filtered = this.props.myCryptoes.filter(x => x.symbol === symbol);
+    let buyingPrice = filtered[0].boughtPrice;
+    let diff = netPrice - buyingPrice
+    return ((diff * 100) / buyingPrice).toFixed(2)
   }
 
   render() {
@@ -24,28 +44,54 @@ class AnalyzingField extends Component {
             padding: 60,
             alignItems: 'center',
           }}>
-          {store.getState().wallet.currencies.length > 0 ?
-            <Grid container justify='space-between'>
+          {this.props.myCryptoes.length > 0 ?
+            <Grid container justify='space-between' alignItems='center'>
               <Grid item>
-                <div style={{ display: 'flex' }} >
-                  <Typography style={{ color: 'white', paddingRight: 20 }}>Gross:</Typography>
-                  <Typography style={{ color: 'white' }}>${this.props.fetchingPrices ? null
+                <Typography variant='h4' style={{ color: 'white', fontWeight: 600 }}>{this.props.cryptoName} : </Typography>
+                <div style={{ display: 'flex', justifyContent: 'space-between', padding: '10px 0px' }} >
+                  <Typography variant='h5' style={{ color: 'white', paddingRight: 10, fontWeight: 600 }}>Gross :</Typography>
+                  <Typography variant='h5' style={{ color: 'white' }}>$ {this.props.fetchingPrices ? null
                     : this.grossPrice(this.props.currentCryptoSymbol)
                   }</Typography>
                 </div>
-                <div style={{ display: 'flex' }} >
-                  <Typography style={{ color: 'white', paddingRight: 20 }}>Buying fees</Typography>
-                  <Typography style={{ color: 'white' }}>14220$</Typography>
+                <div style={{ display: 'flex', justifyContent: 'space-between', padding: '10px 0px' }} >
+                  <Typography variant='h5' style={{ color: 'white', paddingRight: 10, fontWeight: 600 }}>Fees :</Typography>
+                  <Typography variant='h5' style={{ color: 'white' }}>
+                    $ {this.props.fetchingPrices ? null : this.feeCalculation(this.grossPrice(this.props.currentCryptoSymbol))}
+                  </Typography>
                 </div>
-                <div style={{ display: 'flex' }} >
-                  <Typography style={{ color: 'white', paddingRight: 20 }}>Selling fees</Typography>
-                  <Typography style={{ color: 'white' }}>14430$</Typography>
+                <div style={{ display: 'flex', justifyContent: 'space-between', padding: '10px 0px' }} >
+                  <Typography variant='h5' style={{ color: 'white', paddingRight: 10, fontWeight: 600 }}>Net :</Typography>
+                  <Typography variant='h5' style={{ color: 'white' }}>
+                    $ {this.props.fetchingPrices ? null :
+                      this.netPrice(this.grossPrice(this.props.currentCryptoSymbol), this.feeCalculation(this.grossPrice(this.props.currentCryptoSymbol)))}
+                  </Typography>
+                </div>
+                <div style={{ display: 'flex', justifyContent: 'space-between', padding: '10px 0px' }} >
+                  <Typography variant='h5' style={{ color: 'white', paddingRight: 10, fontWeight: 600 }}>Profit :</Typography>
+                  <Typography variant='h5' style={{ color: 'white' }}>
+                    $ {this.props.fetchingPrices ? null :
+                      this.profit(this.netPrice(this.grossPrice(this.props.currentCryptoSymbol), this.feeCalculation(this.grossPrice(this.props.currentCryptoSymbol))), this.props.currentCryptoSymbol)}
+                  </Typography>
                 </div>
               </Grid>
               <Grid item>
-                <div style={{ height: 150, width: 150, border: '5px solid #f44336', borderRadius: 150, display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
-                  <Typography variant='h4' style={{ color: '#f44336', }}>24 %</Typography>
-                </div>
+                {
+                  this.props.fetchingPrices ? null :
+                    <div
+                      className={this.profit(this.netPrice(this.grossPrice(this.props.currentCryptoSymbol), this.feeCalculation(this.grossPrice(this.props.currentCryptoSymbol))), this.props.currentCryptoSymbol) > 0 ? 'circleAnimation profit'
+                        : 'circleAnimation deficit'}>
+                      <Typography
+                        className='circleText'
+                        variant='h3'
+                        style={{
+                          color: this.profit(this.netPrice(this.grossPrice(this.props.currentCryptoSymbol), this.feeCalculation(this.grossPrice(this.props.currentCryptoSymbol))), this.props.currentCryptoSymbol) > 0 ? '#087f23' : '#EA2027',
+                          fontWeight: 600
+                        }}>
+                        {this.profitPercentage(this.netPrice(this.grossPrice(this.props.currentCryptoSymbol), this.feeCalculation(this.grossPrice(this.props.currentCryptoSymbol))), this.props.currentCryptoSymbol)}%
+                      </Typography>
+                    </div>
+                }
               </Grid>
             </Grid>
             :
@@ -65,7 +111,8 @@ const mapStateToProps = (state) => ({
   prices: state.cryptoesPrice.cryptoes,
   myCryptoes: state.wallet.currencies,
   currentCryptoSymbol: state.chart.symbol,
-  fetchingPrices: state.cryptoesPrice.fetchingPrices
+  fetchingPrices: state.cryptoesPrice.fetchingPrices,
+  cryptoName: state.chart.label
 })
 
 export default connect(mapStateToProps)(AnalyzingField)

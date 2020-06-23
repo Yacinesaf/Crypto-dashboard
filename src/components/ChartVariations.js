@@ -19,6 +19,7 @@ class ChartVariations extends Component {
   }
 
   monthLoop = (arr) => {
+    console.log(arr)
     let monthsArr = arr.map(x => {
       let splited = x.day.split('-')
       splited.pop()

@@ -1,47 +1,47 @@
 const initialState = {
   currencies: [
-    {
-      amount: 6,
-      boughtPrice: 66,
-      name: "Eos",
-      symbol: "EOS"
-    },
-    {
-      amount: 6,
-      boughtPrice: 66,
-      name: "Bitcoin",
-      symbol: "BTC"
-    },
-    {
-      amount: 6,
-      boughtPrice: 66,
-      name: "Bitcoin Cash",
-      symbol: "BCH"
-    },
-    {
-      amount: 16,
-      boughtPrice: 65,
-      name: "Ethereum",
-      symbol: "ETH"
-    },
-    {
-      amount: 6,
-      boughtPrice: 66,
-      name: "Eos",
-      symbol: "EOS"
-    },
-    {
-      amount: 6,
-      boughtPrice: 66,
-      name: "Bitcoin Cash",
-      symbol: "BCH"
-    },
-    {
-      amount: 16,
-      boughtPrice: 65,
-      name: "Ethereum",
-      symbol: "ETH"
-    },
+    // {
+    //   amount: 6,
+    //   boughtPrice: 66,
+    //   name: "Eos",
+    //   symbol: "EOS"
+    // },
+    // {
+    //   amount: 6,
+    //   boughtPrice: 9556,
+    //   name: "Bitcoin",
+    //   symbol: "BTC"
+    // },
+    // {
+    //   amount: 6,
+    //   boughtPrice: 65556,
+    //   name: "Bitcoin Cash",
+    //   symbol: "BCH"
+    // },
+    // {
+    //   amount: 16,
+    //   boughtPrice: 65,
+    //   name: "Ethereum",
+    //   symbol: "ETH"
+    // },
+    // {
+    //   amount: 6,
+    //   boughtPrice: 66,
+    //   name: "Eos",
+    //   symbol: "EOS"
+    // },
+    // {
+    //   amount: 6,
+    //   boughtPrice: 66,
+    //   name: "Bitcoin Cash",
+    //   symbol: "BCH"
+    // },
+    // {
+    //   amount: 16,
+    //   boughtPrice: 65,
+    //   name: "Ethereum",
+    //   symbol: "ETH"
+    // },
   ],
   fetching: null,
 

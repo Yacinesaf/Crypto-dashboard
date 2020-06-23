@@ -20,7 +20,6 @@ export const fetchMyWallet = () => dispatch => {
 export const getCryptoesPrices = () => dispatch => {
   dispatch({ type: 'SET_FETCHING_PRICES', payload: true })
   return getCryptoes().then(res => {
-    console.log(res)
     dispatch({ type: 'SET_CRYPTOES', payload: res })
     dispatch({ type: 'SET_FETCHING_PRICES', payload: false })
 

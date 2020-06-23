@@ -89,7 +89,7 @@ const mapStateToProps = (state) => ({
   label: state.chart.label,
   symbol: state.chart.symbol,
   monthly: state.cryptoesPrice.monthlyPrices,
-  isFetching: state.cryptoesPrice.fetchingPrices
+  isFetching: state.cryptoesPrice.fetchingMonthlyPrices
 })
 
 export default connect(mapStateToProps, { getCryptoesMonthlyPrices })(ChartVariations)

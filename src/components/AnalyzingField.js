@@ -6,18 +6,10 @@ import { connect } from 'react-redux'
 
 
 class AnalyzingField extends Component {
-  constructor() {
-    super()
-    this.state = {
-    }
-  }
-
 
   grossPrice = (symbol) => {
-    let filtered = this.props.myCryptoes.filter(x => x.symbol === symbol)
     console.log(symbol)
-    console.log(this.props.prices)
-    console.log(this.props.prices[symbol].CAD)
+    let filtered = this.props.myCryptoes.filter(x => x.symbol === symbol)
     return (filtered[0].amount * this.props.prices[symbol].CAD).toFixed(2)
   }
 

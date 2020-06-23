@@ -20,17 +20,18 @@ export const fetchMyWallet = () => dispatch => {
 export const getCryptoesPrices = () => dispatch => {
   dispatch({ type: 'SET_FETCHING_PRICES', payload: true })
   return getCryptoes().then(res => {
-    // dispatch({ type: 'SET_CRYPTOES', payload: res })
+    console.log(res)
+    dispatch({ type: 'SET_CRYPTOES', payload: res })
     dispatch({ type: 'SET_FETCHING_PRICES', payload: false })
 
   })
 }
 
 export const getCryptoesMonthlyPrices = () => dispatch => {
-  dispatch({type : 'SET_FETCHING_PRICES', payload : true})
+  dispatch({type : 'SET_FETCHING_MONTHLY', payload : true})
   return getMonthlyPrices().then(res => {
     dispatch({type : 'SET_MONTHLY', payload : res})
-    dispatch({type : 'SET_FETCHING_PRICES', payload : false})
+    dispatch({type : 'SET_FETCHING_MONTHLY', payload : false})
   })
 }
 

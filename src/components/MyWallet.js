@@ -8,7 +8,6 @@ import { nameFormat } from '../services/helperFunctions'
 import ArrowDropDownIcon from '@material-ui/icons/ArrowDropDown';
 import emptystate from '../assets/emptystate.svg'
 import { withStyles } from "@material-ui/core/styles";
-import { getDailyPrices } from '../services/apiEndpoints'
 
 const styles = {
   root: {
@@ -78,12 +77,11 @@ class MyWallet extends Component {
   }
 
   addFromVerification = () => {
-    return Boolean(this.props.symbol && this.props.amountBought && this.props.price)
+    return this.state.symbol && this.state.amountBought > 0 && this.state.price > 0
   }
 
 
   render() {
-    console.log(this.addFromVerification())
     const { classes } = this.props
     return (
       <div style={{ height: '100%' }}>
@@ -115,6 +113,7 @@ class MyWallet extends Component {
         <Dialog
           onExited={() => this.setState({ isCryptoChanging: false })}
           onEscapeKeyDown={this.closeDialog}
+          onBackdropClick={()=> this.setState({price : null, amountBought : null})}
           open={this.state.isDialogOpen}
           style={{ backgroundColor: 'rgba(255, 255, 255, 0.5)' }}
           onClose={this.closeDialog} >
@@ -176,7 +175,7 @@ class MyWallet extends Component {
               <Button style={{ color: 'white' }} onClick={this.closeDialog} color="primary">
                 Cancel
              </Button>
-              <Button disabled = {this.addFromVerification} style={{ color: 'white' }} onClick={() => {
+              <Button disabled = {!this.addFromVerification()} style={{ color: 'white' }} onClick={() => {
                 if (this.state.isCryptoChanging) {
                   this.props.editCrypto(this.generateNewCurrnecy());
                   showSnackbar('Crypto updated successfully', 'success');

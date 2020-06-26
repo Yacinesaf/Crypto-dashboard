@@ -10,10 +10,10 @@ function getCryptoes() {
 
 function getMonthlyPrices() {
   const promises = cryptoes.map(symbol => {
-    
+
     return axios.get(`https://www.alphavantage.co/query?function=DIGITAL_CURRENCY_MONTHLY&symbol=${symbol}&market=CAD&apikey=FN5ZAJQJGFO3AHG8`)
       .then(res => {
-        if(res.data.Note){
+        if (res.data.Note) {
           return null
         }
         const series = res.data['Time Series (Digital Currency Monthly)'];
@@ -32,7 +32,12 @@ function getMonthlyPrices() {
   })
 }
 
+function getLocalStore() {
+  return JSON.parse(localStorage.getItem('currencies'))
+}
+
 export {
   getCryptoes,
-  getMonthlyPrices
+  getMonthlyPrices,
+  getLocalStore
 }

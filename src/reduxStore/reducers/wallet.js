@@ -44,6 +44,7 @@ const initialState = {
     },
   ],
   fetching: null,
+  currentSymbol: null
 
 }
 
@@ -56,12 +57,13 @@ export default function (state = initialState, action) {
     case 'ADD_CRYPTO':
       return { ...state, currencies: [action.payload, ...state.currencies] }
     case 'UPDATE_CRYPTO':
-      console.log(action.payload)
-      const i =  state.currencies.findIndex(x => x.symbol === action.payload.symbol);
+      const i = state.currencies.findIndex(x => x.symbol === action.payload.symbol);
       const copy = [...state.currencies]
       copy[i] = action.payload
       return { ...state, currencies: copy }
-    case 'REMOVE_CRYPTO' :
-      return {...state, currencies : state.currencies.filter(x=> x.symbol !== action.payload)}
+    case 'REMOVE_CRYPTO':
+      return { ...state, currencies: state.currencies.filter(x => x.symbol !== action.payload) }
+    case 'SET_CURRENT_SYMBOL':
+      return { ...state, currentSymbol: action.payload }
   }
 }

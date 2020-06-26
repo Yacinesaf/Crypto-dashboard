@@ -1,13 +1,15 @@
 import React, { Component } from 'react';
-import { Card, Typography, Grid, Dialog, DialogTitle, DialogContent, DialogContentText, TextField, DialogActions, Button, Menu, MenuItem, Input, InputAdornment, IconButton, CircularProgress } from '@material-ui/core';
+import { Card, Typography, Grid, Dialog, DialogTitle, DialogContent, DialogContentText, TextField, DialogActions, Button, Menu, MenuItem, Input, InputAdornment, IconButton, CircularProgress, Tabs, Tab, Box } from '@material-ui/core';
 import OneCrypto from './OneCrypto';
 import AddCircleIcon from '@material-ui/icons/AddCircle';
 import { addCrypto, fetchMyWallet, removeCrypto, showSnackbar, editCrypto } from '../reduxStore/actions';
+import { getLocalStore } from '../services/apiEndpoints'
 import { connect } from 'react-redux'
 import { nameFormat } from '../services/helperFunctions'
 import ArrowDropDownIcon from '@material-ui/icons/ArrowDropDown';
 import emptystate from '../assets/emptystate.svg'
 import { withStyles } from "@material-ui/core/styles";
+import '../style.css'
 
 const styles = {
   root: {
@@ -71,7 +73,8 @@ class MyWallet extends Component {
       price: currentCrypto.boughtPrice,
       amountBought: currentCrypto.amount,
       isCryptoChanging: true,
-      name: currentCrypto.name
+      name: currentCrypto.name,
+      value: 0
     })
     this.openDialog();
   }
@@ -80,12 +83,31 @@ class MyWallet extends Component {
     return this.state.symbol && this.state.amountBought > 0 && this.state.price > 0
   }
 
+  handleChange = (event, newValue) => {
+    this.setState({ value: newValue })
+  }
 
+  a11yProps = (index) => {
+    return {
+      id: `vertical-tab-${index}`,
+      'aria-controls': `vertical-tabpanel-${index}`,
+    };
+  }
+
+  menuCryptoesKeys = () => {
+    let keys = Object.keys(this.props.cryptoes);
+    let myKeys =this.props.myCurrencies.map(x=> {
+      return x.symbol
+    })
+    return keys.filter(x => !myKeys.includes(x))
+  }
+
+  
   render() {
     const { classes } = this.props
     return (
       <div style={{ height: '100%' }}>
-        <Card style={{ backgroundColor: '#24204b', borderRadius: 20, height: '100%' }}>
+        <Card className='style-1' style={{ backgroundColor: '#24204b', borderRadius: 20, height: '100%', overflowY: 'scroll' }}>
           <Grid container justify='center'>
             <Grid item xs={11}>
               <div style={{ display: 'flex', alignItems: 'center' }}>
@@ -96,7 +118,7 @@ class MyWallet extends Component {
               </div>
               <Grid container justify='center' style={{ padding: 10, }}>
                 {!this.props.myCurrencies.length > 0 ? <img src={emptystate} alt='empty' style={{ height: 300, width: 300, paddingTop: 100 }} /> :
-                  this.props.myCurrencies.map((x, i) => (
+                  getLocalStore().map((x, i) => (
                     <Grid key={i} item xs={12} style={{ padding: '20px 5px', display: 'flex', alignItems: 'center' }}>
                       <OneCrypto
                         showSnackbar={this.props.showSnackbar}
@@ -113,7 +135,7 @@ class MyWallet extends Component {
         <Dialog
           onExited={() => this.setState({ isCryptoChanging: false })}
           onEscapeKeyDown={this.closeDialog}
-          onBackdropClick={()=> this.setState({price : null, amountBought : null})}
+          onBackdropClick={() => this.setState({ price: null, amountBought: null })}
           open={this.state.isDialogOpen}
           style={{ backgroundColor: 'rgba(255, 255, 255, 0.5)' }}
           onClose={this.closeDialog} >
@@ -175,7 +197,7 @@ class MyWallet extends Component {
               <Button style={{ color: 'white' }} onClick={this.closeDialog} color="primary">
                 Cancel
              </Button>
-              <Button disabled = {!this.addFromVerification()} style={{ color: 'white' }} onClick={() => {
+              <Button disabled={!this.addFromVerification()} style={{ color: 'white' }} onClick={() => {
                 if (this.state.isCryptoChanging) {
                   this.props.editCrypto(this.generateNewCurrnecy());
                   showSnackbar('Crypto updated successfully', 'success');
@@ -185,8 +207,10 @@ class MyWallet extends Component {
                   this.clearDialogFields();
                 } else {
                   this.props.addCrypto(this.generateNewCurrnecy());
+                  localStorage.setItem('currencies', JSON.stringify(this.props.myCurrencies))
                   this.closeDialog()
                   this.clearDialogFields();
+                  console.log(localStorage.getItem('currencies'))
                 }
               }}
                 color="primary">
@@ -213,7 +237,7 @@ class MyWallet extends Component {
           }}
           elevation={4}
         >
-          {Object.keys(this.props.cryptoes).map((x, i) => (
+          {this.menuCryptoesKeys().map((x, i) => (
             <MenuItem key={i}
               style={{ width: 214 }}
               onClick={(e) => {

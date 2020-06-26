@@ -1,7 +1,6 @@
 import React, { Component } from 'react';
 import { Paper, Typography, Grid } from '@material-ui/core';
 import emptystate from '../assets/undraw_crypto_portfolio_2jy5.svg'
-import store from '../reduxStore/store'
 import { connect } from 'react-redux'
 import '../style.css'
 
@@ -9,28 +8,48 @@ class AnalyzingField extends Component {
 
   grossPrice = (symbol) => {
     let filtered = this.props.myCryptoes.filter(x => x.symbol === symbol)
-    return (filtered[0].amount * this.props.prices[symbol].CAD).toFixed(2)
+    if (filtered) {
+      return (filtered[0].amount * this.props.prices[symbol].CAD).toFixed(2)
+    } else {
+      return (this.props.myCryptoes[this.props.myCryptoes.length - 1].amount * this.props.prices[symbol].CAD).toFixed(2)
+    }
   }
 
   feeCalculation = (gross) => {
-    return (gross * (0.26 / 100)).toFixed(2)
+    if (gross) {
+      return (gross * (0.26 / 100)).toFixed(2)
+    }
   }
 
   netPrice = (gross, fees) => {
-    return (gross - fees).toFixed(2)
+    if (gross && fees) {
+      return (gross - fees).toFixed(2)
+    }
   }
 
   profit = (netPrice, symbol) => {
     let filtered = this.props.myCryptoes.filter(x => x.symbol === symbol);
-    let buyingPrice = filtered[0].boughtPrice;
-    return (netPrice - buyingPrice).toFixed(2)
+    if (filtered) {
+      let buyingPrice = filtered[0].boughtPrice;
+      return (netPrice - buyingPrice).toFixed(2)
+    } else {
+      let buyingPrice = this.props.myCryptoes[this.props.myCryptoes.length - 1].boughtPrice;
+      return (netPrice - buyingPrice).toFixed(2)
+    }
   }
 
   profitPercentage = (netPrice, symbol) => {
     let filtered = this.props.myCryptoes.filter(x => x.symbol === symbol);
-    let buyingPrice = filtered[0].boughtPrice;
-    let diff = netPrice - buyingPrice
-    return ((diff * 100) / buyingPrice).toFixed(2)
+    console.log("AnalyzingField -> profitPercentage -> filtered", filtered)
+    if (filtered) {
+      let buyingPrice = filtered[0].boughtPrice;
+      let diff = netPrice - buyingPrice
+      return ((diff * 100) / buyingPrice).toFixed(2)
+    } else {
+      let buyingPrice = this.props.myCryptoes[this.props.myCryptoes.length - 1].boughtPrice;
+      let diff = netPrice - buyingPrice
+      return ((diff * 100) / buyingPrice).toFixed(2)
+    }
   }
 
   render() {
@@ -85,7 +104,7 @@ class AnalyzingField extends Component {
                         className='circleText'
                         variant='h3'
                         style={{
-                          color: this.profit(this.netPrice(this.grossPrice(this.props.currentCryptoSymbol), this.feeCalculation(this.grossPrice(this.props.currentCryptoSymbol))), this.props.currentCryptoSymbol) > 0 ? '#087f23' : '#EA2027',
+                          color: this.profit(this.netPrice(this.grossPrice(this.props.currentCryptoSymbol), this.feeCalculation(this.grossPrice(this.props.currentCryptoSymbol))), this.props.currentCryptoSymbol) > 0 ? '#00c853' : '#EA2027',
                           fontWeight: 600
                         }}>
                         {this.profitPercentage(this.netPrice(this.grossPrice(this.props.currentCryptoSymbol), this.feeCalculation(this.grossPrice(this.props.currentCryptoSymbol))), this.props.currentCryptoSymbol)}%

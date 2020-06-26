@@ -48,3 +48,7 @@ export const setLabel = (label) => dispatch => {
 export const setSymbol = (symbol) => dispatch => {
   dispatch({ type: 'SET_SYMBOL', payload: symbol })
 }
+
+// export const setMyCurrentSymbol = (symbol) => dispatch => {
+//   dispatch({type : 'SET_CURRENT_SYMBOL', payload : symbol})
+// }

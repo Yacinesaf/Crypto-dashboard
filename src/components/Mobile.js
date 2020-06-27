@@ -30,7 +30,7 @@ class Mobile extends Component {
     }
     if (this.state.tabValue === 1) {
       return (
-        <AnalyzingField />
+        <AnalyzingField smDown={this.props.smDown} />
       )
     }
     if (this.state.tabValue === 2) {

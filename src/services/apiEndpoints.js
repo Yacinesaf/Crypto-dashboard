@@ -32,12 +32,9 @@ function getMonthlyPrices() {
   })
 }
 
-function getLocalStore() {
-  return JSON.parse(localStorage.getItem('currencies'))
-}
+
 
 export {
   getCryptoes,
-  getMonthlyPrices,
-  getLocalStore
+  getMonthlyPrices
 }

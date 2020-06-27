@@ -1,4 +1,5 @@
 import { getCryptoes, getMonthlyPrices } from "../services/apiEndpoints"
+import store from "./store"
 
 export const addCrypto = (newCurrency) => dispatch => {
   dispatch({ type: 'ADD_CRYPTO', payload: newCurrency })
@@ -13,10 +14,6 @@ export const editCrypto = (newCrypto) => dispatch => {
   dispatch({ type: 'UPDATE_CRYPTO', payload: newCrypto })
 }
 
-export const fetchMyWallet = () => dispatch => {
-  // dispatch({ type: 'SET_CURRENCIES', payload: '' })
-}
-
 export const getCryptoesPrices = () => dispatch => {
   dispatch({ type: 'SET_FETCHING_PRICES', payload: true })
   return getCryptoes().then(res => {
@@ -27,10 +24,10 @@ export const getCryptoesPrices = () => dispatch => {
 }
 
 export const getCryptoesMonthlyPrices = () => dispatch => {
-  dispatch({type : 'SET_FETCHING_MONTHLY', payload : true})
+  dispatch({ type: 'SET_FETCHING_MONTHLY', payload: true })
   return getMonthlyPrices().then(res => {
-    dispatch({type : 'SET_MONTHLY', payload : res})
-    dispatch({type : 'SET_FETCHING_MONTHLY', payload : false})
+    dispatch({ type: 'SET_MONTHLY', payload: res })
+    dispatch({ type: 'SET_FETCHING_MONTHLY', payload: false })
   })
 }
 
@@ -47,6 +44,11 @@ export const setLabel = (label) => dispatch => {
 }
 export const setSymbol = (symbol) => dispatch => {
   dispatch({ type: 'SET_SYMBOL', payload: symbol })
+}
+
+export const getLocalStore = () => dispatch => {
+  const storage =   JSON.parse(localStorage.getItem('currencies'))
+  if(storage) dispatch({type : 'SET_CURRENCIES', payload : storage})
 }
 
 // export const setMyCurrentSymbol = (symbol) => dispatch => {

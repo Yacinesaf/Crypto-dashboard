@@ -2,8 +2,7 @@ import React, { Component } from 'react';
 import { Card, Typography, Grid, Dialog, DialogTitle, DialogContent, DialogContentText, TextField, DialogActions, Button, Menu, MenuItem, Input, InputAdornment, IconButton, CircularProgress, Tabs, Tab, Box } from '@material-ui/core';
 import OneCrypto from './OneCrypto';
 import AddCircleIcon from '@material-ui/icons/AddCircle';
-import { addCrypto, fetchMyWallet, removeCrypto, showSnackbar, editCrypto } from '../reduxStore/actions';
-import { getLocalStore } from '../services/apiEndpoints'
+import { addCrypto, removeCrypto, showSnackbar, editCrypto, getLocalStore } from '../reduxStore/actions';
 import { connect } from 'react-redux'
 import { nameFormat } from '../services/helperFunctions'
 import ArrowDropDownIcon from '@material-ui/icons/ArrowDropDown';
@@ -36,7 +35,7 @@ class MyWallet extends Component {
   }
 
   componentDidMount() {
-    this.props.fetchMyWallet()
+    this.props.getLocalStore()
   }
   generateNewCurrnecy() {
     let date = new Date()
@@ -83,17 +82,6 @@ class MyWallet extends Component {
     return this.state.symbol && this.state.amountBought > 0 && this.state.price > 0
   }
 
-  handleChange = (event, newValue) => {
-    this.setState({ value: newValue })
-  }
-
-  a11yProps = (index) => {
-    return {
-      id: `vertical-tab-${index}`,
-      'aria-controls': `vertical-tabpanel-${index}`,
-    };
-  }
-
   menuCryptoesKeys = () => {
     let keys = Object.keys(this.props.cryptoes);
     let myKeys =this.props.myCurrencies.map(x=> {
@@ -118,7 +106,7 @@ class MyWallet extends Component {
               </div>
               <Grid container justify='center' style={{ padding: 10, }}>
                 {!this.props.myCurrencies.length > 0 ? <img src={emptystate} alt='empty' style={{ height: 300, width: 300, paddingTop: 100 }} /> :
-                  getLocalStore().map((x, i) => (
+                  this.props.myCurrencies.map((x, i) => (
                     <Grid key={i} item xs={12} style={{ padding: '20px 5px', display: 'flex', alignItems: 'center' }}>
                       <OneCrypto
                         showSnackbar={this.props.showSnackbar}
@@ -202,15 +190,12 @@ class MyWallet extends Component {
                   this.props.editCrypto(this.generateNewCurrnecy());
                   showSnackbar('Crypto updated successfully', 'success');
                   this.notEditingCrypto();
-                  this.props.fetchMyWallet();
                   this.closeDialog();
                   this.clearDialogFields();
                 } else {
                   this.props.addCrypto(this.generateNewCurrnecy());
-                  localStorage.setItem('currencies', JSON.stringify(this.props.myCurrencies))
                   this.closeDialog()
                   this.clearDialogFields();
-                  console.log(localStorage.getItem('currencies'))
                 }
               }}
                 color="primary">
@@ -259,4 +244,4 @@ const mapStateToProps = state => ({
   cryptoes: state.cryptoesPrice.cryptoes,
 })
 
-export default connect(mapStateToProps, { addCrypto, fetchMyWallet, removeCrypto, showSnackbar, editCrypto })(withStyles(styles)(MyWallet))
+export default connect(mapStateToProps, { addCrypto, removeCrypto, showSnackbar, editCrypto, getLocalStore })(withStyles(styles)(MyWallet))

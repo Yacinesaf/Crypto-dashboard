@@ -8,11 +8,7 @@ class AnalyzingField extends Component {
 
   grossPrice = (symbol) => {
     let filtered = this.props.myCryptoes.filter(x => x.symbol === symbol)
-    if (filtered) {
-      return (filtered[0].amount * this.props.prices[symbol].CAD).toFixed(2)
-    } else {
-      return (this.props.myCryptoes[this.props.myCryptoes.length - 1].amount * this.props.prices[symbol].CAD).toFixed(2)
-    }
+    return (filtered[0].amount * this.props.prices[symbol].CAD).toFixed(2)
   }
 
   feeCalculation = (gross) => {
@@ -29,27 +25,15 @@ class AnalyzingField extends Component {
 
   profit = (netPrice, symbol) => {
     let filtered = this.props.myCryptoes.filter(x => x.symbol === symbol);
-    if (filtered) {
-      let buyingPrice = filtered[0].boughtPrice;
-      return (netPrice - buyingPrice).toFixed(2)
-    } else {
-      let buyingPrice = this.props.myCryptoes[this.props.myCryptoes.length - 1].boughtPrice;
-      return (netPrice - buyingPrice).toFixed(2)
-    }
+    let buyingPrice = filtered[0].boughtPrice;
+    return (netPrice - buyingPrice).toFixed(2)
   }
 
   profitPercentage = (netPrice, symbol) => {
     let filtered = this.props.myCryptoes.filter(x => x.symbol === symbol);
-    console.log("AnalyzingField -> profitPercentage -> filtered", filtered)
-    if (filtered) {
-      let buyingPrice = filtered[0].boughtPrice;
-      let diff = netPrice - buyingPrice
-      return ((diff * 100) / buyingPrice).toFixed(2)
-    } else {
-      let buyingPrice = this.props.myCryptoes[this.props.myCryptoes.length - 1].boughtPrice;
-      let diff = netPrice - buyingPrice
-      return ((diff * 100) / buyingPrice).toFixed(2)
-    }
+    let buyingPrice = filtered[0].boughtPrice;
+    let diff = netPrice - buyingPrice
+    return ((diff * 100) / buyingPrice).toFixed(2)
   }
 
   render() {
@@ -60,7 +44,7 @@ class AnalyzingField extends Component {
             display: 'flex',
             backgroundColor: '#24204b',
             borderRadius: 20,
-            padding: 60,
+            padding: this.props.smDown ? 30 : 60,
             alignItems: 'center',
           }}>
           {this.props.myCryptoes.length > 0 ?

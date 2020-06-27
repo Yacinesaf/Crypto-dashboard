@@ -11,8 +11,7 @@ function App(props) {
 
   return (
     <div style={{ minHeight: '100vh', backgroundColor: '#171430' }}>
-      <Mobile smDown={smDown} />
-      {/*<Desktop />*/}
+      {smDown ? <Mobile smDown={smDown} /> : <Desktop />}
     </div>
   );
 }

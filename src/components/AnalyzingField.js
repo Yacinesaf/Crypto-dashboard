@@ -48,31 +48,31 @@ class AnalyzingField extends Component {
             alignItems: 'center',
           }}>
           {this.props.myCryptoes.length > 0 ?
-            <Grid container justify='space-between' alignItems='center'>
-              <Grid item>
-                <Typography variant='h4' style={{ color: 'white', fontWeight: 600 }}>{this.props.cryptoName} : </Typography>
+            <Grid container justify={this.props.smDown ? 'center' : 'space-between'} alignItems='center'>
+              <Grid item xs={11} md={"auto"} >
+                <Typography variant={this.props.smDown ? 'h6' : 'h4'} style={{ color: 'white', fontWeight: 600 }}>{this.props.cryptoName} : </Typography>
                 <div style={{ display: 'flex', justifyContent: 'space-between', padding: '10px 0px' }} >
-                  <Typography variant='h5' style={{ color: 'white', paddingRight: 10, fontWeight: 600 }}>Gross :</Typography>
-                  <Typography variant='h5' style={{ color: 'white' }}>$ {this.props.fetchingPrices ? null
+                  <Typography variant={this.props.smDown ? 'body1' : 'h5'} style={{ color: 'white', paddingRight: 10, fontWeight: 600 }}>Gross :</Typography>
+                  <Typography variant={this.props.smDown ? 'body1' : 'h5'} style={{ color: 'white' }}>$ {this.props.fetchingPrices ? null
                     : this.grossPrice(this.props.currentCryptoSymbol)
                   }</Typography>
                 </div>
                 <div style={{ display: 'flex', justifyContent: 'space-between', padding: '10px 0px' }} >
-                  <Typography variant='h5' style={{ color: 'white', paddingRight: 10, fontWeight: 600 }}>Fees :</Typography>
-                  <Typography variant='h5' style={{ color: 'white' }}>
+                  <Typography variant={this.props.smDown ? 'body1' : 'h5'} style={{ color: 'white', paddingRight: 10, fontWeight: 600 }}>Fees :</Typography>
+                  <Typography variant={this.props.smDown ? 'body1' : 'h5'} style={{ color: 'white' }}>
                     $ {this.props.fetchingPrices ? null : this.feeCalculation(this.grossPrice(this.props.currentCryptoSymbol))}
                   </Typography>
                 </div>
                 <div style={{ display: 'flex', justifyContent: 'space-between', padding: '10px 0px' }} >
-                  <Typography variant='h5' style={{ color: 'white', paddingRight: 10, fontWeight: 600 }}>Net :</Typography>
-                  <Typography variant='h5' style={{ color: 'white' }}>
+                  <Typography variant={this.props.smDown ? 'body1' : 'h5'} style={{ color: 'white', paddingRight: 10, fontWeight: 600 }}>Net :</Typography>
+                  <Typography variant={this.props.smDown ? 'body1' : 'h5'} style={{ color: 'white' }}>
                     $ {this.props.fetchingPrices ? null :
                       this.netPrice(this.grossPrice(this.props.currentCryptoSymbol), this.feeCalculation(this.grossPrice(this.props.currentCryptoSymbol)))}
                   </Typography>
                 </div>
                 <div style={{ display: 'flex', justifyContent: 'space-between', padding: '10px 0px' }} >
-                  <Typography variant='h5' style={{ color: 'white', paddingRight: 10, fontWeight: 600 }}>Profit :</Typography>
-                  <Typography variant='h5' style={{ color: 'white' }}>
+                  <Typography variant={this.props.smDown ? 'body1' : 'h5'} style={{ color: 'white', paddingRight: 10, fontWeight: 600 }}>Profit :</Typography>
+                  <Typography variant={this.props.smDown ? 'body1' : 'h5'} style={{ color: 'white' }}>
                     $ {this.props.fetchingPrices ? null :
                       this.profit(this.netPrice(this.grossPrice(this.props.currentCryptoSymbol), this.feeCalculation(this.grossPrice(this.props.currentCryptoSymbol))), this.props.currentCryptoSymbol)}
                   </Typography>
@@ -99,7 +99,8 @@ class AnalyzingField extends Component {
             </Grid>
             :
             <Grid container justify='center'>
-              <Grid item xs={8}>
+              <Typography variant='h6' style={{ color: 'white' }}>Add a new crypto to analyse it</Typography>
+              <Grid item xs={9} md={8}>
                 <img src={emptystate} alt='empty' height='200px' width={'100%'} />
               </Grid>
             </Grid>

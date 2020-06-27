@@ -95,7 +95,7 @@ class MyWallet extends Component {
     const { classes } = this.props
     return (
       <div style={{ height: '100%' }}>
-        <Card className='style-1' style={{ backgroundColor: '#24204b', borderRadius: 20, height: '100%', overflowY: 'scroll' }}>
+        <Card className='style-1' style={{ backgroundColor: '#24204b', borderRadius: 20, height: '100%', overflowY: this.props.smDown ? 'hidden' : 'scroll' }}>
           <Grid container justify='center'>
             <Grid item xs={11}>
               <div style={{ display: 'flex', alignItems: 'center' }}>
@@ -104,8 +104,13 @@ class MyWallet extends Component {
                   <AddCircleIcon style={{ color: 'white', fontSize: 40 }} />
                 </IconButton>
               </div>
-              <Grid container justify='center' style={{ padding: 10, }}>
-                {!this.props.myCurrencies.length > 0 ? <img src={emptystate} alt='empty' style={{ height: 300, width: 300, paddingTop: 100 }} /> :
+              <Grid container justify='center' alignItems={!this.props.myCurrencies.length > 0 ? 'center' : 'unset'} style={{ padding: 10, height : !this.props.myCurrencies.length > 0 ? 'calc(100vh - 238px)' : 'unset' }}>
+                {!this.props.myCurrencies.length > 0 ?
+                  <div>
+                  <Typography variant='h6' style={{color : 'white', textAlign : 'center'}}>Add a new crypto</Typography>
+                  <img src={emptystate} alt='empty' style={{ height: 300, width: 300, paddingTop : 70 }} /> 
+                  </div>
+                   :
                   this.props.myCurrencies.map((x, i) => (
                     <Grid key={i} item xs={12} style={{ padding: '20px 5px', display: 'flex', alignItems: 'center' }}>
                       <OneCrypto

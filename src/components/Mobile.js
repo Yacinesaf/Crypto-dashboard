@@ -6,6 +6,7 @@ import AnalyzingField from './AnalyzingField';
 import ChartVariations from './ChartVariations';
 import { connect } from 'react-redux'
 import { getCryptoesPrices } from '../reduxStore/actions'
+import Navbar from './Navbar';
 
 class Mobile extends Component {
   constructor() {
@@ -25,7 +26,7 @@ class Mobile extends Component {
   tabToShow = () => {
     if (this.state.tabValue === 0) {
       return (
-        <MyWallet />
+        <MyWallet smDown={this.props.smDown} />
       )
     }
     if (this.state.tabValue === 1) {
@@ -35,13 +36,14 @@ class Mobile extends Component {
     }
     if (this.state.tabValue === 2) {
       return (
-        <ChartVariations />
+        <ChartVariations smDown={this.props.smDown} />
       )
     }
   }
   render() {
     return (
       <div style={{ paddingBottom: 48 }}>
+        <Navbar smDown={this.props.smDown} />
         <div style={{ padding: 20 }}>
           {this.tabToShow()}
         </div>

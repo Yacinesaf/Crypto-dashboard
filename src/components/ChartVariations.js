@@ -75,9 +75,11 @@ class ChartVariations extends Component {
     return (
       <div>
         {this.props.isFetching ?
+          <div style={{display : 'flex', alignItems :'center', justifyContent :'center'}}>
           <button className='loadingChart'></button>
+          </div>
           :
-          <div style={{ paddingTop: 20, position : 'relative', minHeight : 300, height : '100%' }}>
+          <div style={{ paddingTop: 20, position : 'relative', minHeight : 300, height : this.props.smDown ? '70vh' : '100%' }}>
             {this.lineGraph()}
           </div>
         }

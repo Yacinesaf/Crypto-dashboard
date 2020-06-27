@@ -47,10 +47,12 @@ export const setSymbol = (symbol) => dispatch => {
 }
 
 export const getLocalStore = () => dispatch => {
-  const storage =   JSON.parse(localStorage.getItem('currencies'))
-  if(storage) dispatch({type : 'SET_CURRENCIES', payload : storage})
+  const storage = JSON.parse(localStorage.getItem('currencies'))
+  if (storage && storage.length) {
+    if (!storage.find(x => x.symbol === store.getState().chart.symbol)) {
+      dispatch({ type: 'SET_SYMBOL', payload: storage[0].symbol })
+      dispatch({ type: 'SET_LABEL', payload: storage[0].name })
+    }
+    dispatch({ type: 'SET_CURRENCIES', payload: storage })
+  }
 }
-
-// export const setMyCurrentSymbol = (symbol) => dispatch => {
-//   dispatch({type : 'SET_CURRENT_SYMBOL', payload : symbol})
-// }

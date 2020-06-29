@@ -42,21 +42,38 @@ class Navbar extends Component {
               }}
               elevation={4}
             >
-              {Object.keys(store.getState().cryptoesPrice.cryptoes).map((x, i) => (
-                <MenuItem key={i}
-                  onClick={(e) => {
-                    this.setState({
-                      symbol: e.currentTarget.innerText,
-                      anchorEl: null,
-                      label: nameFormat(e.currentTarget.innerText),
-                    })
-                    this.props.setLabel(nameFormat(e.currentTarget.innerText))
-                    this.props.setSymbol(e.currentTarget.innerText)
-                  }}
-                >
-                  <Typography>{x}</Typography>
-                </MenuItem>
-              ))
+              {this.props.myCryptoes ? 
+                Object.keys(this.props.myCryptoes).map((x, i) => (
+                  <MenuItem key={i}
+                    onClick={(e) => {
+                      this.setState({
+                        symbol: e.currentTarget.innerText,
+                        anchorEl: null,
+                        label: nameFormat(e.currentTarget.innerText),
+                      })
+                      this.props.setLabel(nameFormat(e.currentTarget.innerText))
+                      this.props.setSymbol(e.currentTarget.innerText)
+                    }}
+                  >
+                    <Typography>{x.symbol}</Typography>
+                  </MenuItem>
+                ))
+                :
+                Object.keys(this.props.cryptoesPrice).map((x, i) => (
+                  <MenuItem key={i}
+                    onClick={(e) => {
+                      this.setState({
+                        symbol: e.currentTarget.innerText,
+                        anchorEl: null,
+                        label: nameFormat(e.currentTarget.innerText),
+                      })
+                      this.props.setLabel(nameFormat(e.currentTarget.innerText))
+                      this.props.setSymbol(e.currentTarget.innerText)
+                    }}
+                  >
+                    <Typography>{x}</Typography>
+                  </MenuItem>
+                ))
               }
             </Menu>
           </Grid>
@@ -66,7 +83,9 @@ class Navbar extends Component {
   }
 }
 const mapStateToProps = (state) => ({
-  symbol : state.chart.symbol
+  symbol : state.chart.symbol,
+  myCryptoes : state.wallet.currencies,
+  cryptoes : state.cryptoesPrice.cryptoes
 })
 
 export default connect(mapStateToProps, { setLabel, setSymbol })(Navbar)

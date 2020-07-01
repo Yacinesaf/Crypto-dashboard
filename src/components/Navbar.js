@@ -2,7 +2,6 @@ import React, { Component } from 'react';
 import { AppBar, Typography, Grid, Button, Menu, MenuItem } from '@material-ui/core';
 import ArrowDropDownIcon from '@material-ui/icons/ArrowDropDown';
 import { nameFormat } from '../services/helperFunctions'
-import store from '../reduxStore/store'
 import { setLabel, setSymbol } from '../reduxStore/actions'
 import { connect } from 'react-redux'
 

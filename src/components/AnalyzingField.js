@@ -47,7 +47,7 @@ class AnalyzingField extends Component {
             padding: this.props.smDown ? 30 : 60,
             alignItems: 'center',
           }}>
-          {this.props.myCryptoes.length > 0 ?
+          {this.props.myCryptoes.length ?
             <Grid container justify={this.props.smDown ? 'center' : 'space-between'} alignItems='center'>
               <Grid item xs={11} md={"auto"} >
                 <Typography variant={this.props.smDown ? 'h6' : 'h4'} style={{ color: 'white', fontWeight: 600 }}>{this.props.cryptoName} : </Typography>

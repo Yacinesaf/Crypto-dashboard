@@ -41,10 +41,10 @@ class Navbar extends Component {
               }}
               elevation={4}
             >
-              {this.props.myCryptoes ? 
-                Object.keys(this.props.myCryptoes).map((x, i) => (
+              {this.props.myCryptoes.length ? 
+               this.props.myCryptoes.map((x, i) => (
                   <MenuItem key={i}
-                    onClick={(e) => {
+                  onClick={(e) => {
                       this.setState({
                         symbol: e.currentTarget.innerText,
                         anchorEl: null,
@@ -58,7 +58,7 @@ class Navbar extends Component {
                   </MenuItem>
                 ))
                 :
-                Object.keys(this.props.cryptoesPrice).map((x, i) => (
+                Object.keys(this.props.cryptoes).map((x, i) => (
                   <MenuItem key={i}
                     onClick={(e) => {
                       this.setState({

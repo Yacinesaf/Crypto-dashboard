@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { Card, Typography, Grid, Dialog, DialogTitle, DialogContent, DialogContentText, TextField, DialogActions, Button, Menu, MenuItem, Input, InputAdornment, IconButton, CircularProgress, Tabs, Tab, Box } from '@material-ui/core';
 import OneCrypto from './OneCrypto';
 import AddCircleIcon from '@material-ui/icons/AddCircle';
-import { addCrypto, removeCrypto, showSnackbar, editCrypto, getLocalStore } from '../reduxStore/actions';
+import { addCrypto, removeCrypto, showSnackbar, editCrypto, getLocalStore, setSymbol, setLabel } from '../reduxStore/actions';
 import { connect } from 'react-redux'
 import { nameFormat } from '../services/helperFunctions'
 import ArrowDropDownIcon from '@material-ui/icons/ArrowDropDown';
@@ -51,7 +51,7 @@ class MyWallet extends Component {
     this.setState({ isDialogOpen: true })
   }
   closeDialog = () => {
-    this.setState({ isDialogOpen: false, symbol: null })
+    this.setState({ isDialogOpen: false, symbol: null, amountBought : null, price : null })
   }
   openMenu = (e) => {
     this.setState({ anchorEl: e.currentTarget })
@@ -84,15 +84,14 @@ class MyWallet extends Component {
 
   menuCryptoesKeys = () => {
     let keys = Object.keys(this.props.cryptoes);
-    let myKeys =this.props.myCurrencies.map(x=> {
+    let myKeys = this.props.myCurrencies.map(x => {
       return x.symbol
     })
     return keys.filter(x => !myKeys.includes(x))
   }
 
-  
+
   render() {
-    const { classes } = this.props
     return (
       <div style={{ height: '100%' }}>
         <Card className='style-1' style={{ backgroundColor: '#24204b', borderRadius: 20, height: '100%', overflowY: this.props.smDown ? 'hidden' : 'scroll' }}>
@@ -104,13 +103,13 @@ class MyWallet extends Component {
                   <AddCircleIcon style={{ color: 'white', fontSize: 40 }} />
                 </IconButton>
               </div>
-              <Grid container justify='center' alignItems={!this.props.myCurrencies.length > 0 ? 'center' : 'unset'} style={{ padding: 10, height : !this.props.myCurrencies.length > 0 ? 'calc(100vh - 238px)' : 'unset' }}>
+              <Grid container justify='center' alignItems={!this.props.myCurrencies.length > 0 ? 'center' : 'unset'} style={{ padding: 10, height: !this.props.myCurrencies.length > 0 ? 'calc(100vh - 238px)' : 'unset' }}>
                 {!this.props.myCurrencies.length > 0 ?
                   <div>
-                  <Typography variant='h6' style={{color : 'white', textAlign : 'center'}}>Add a new crypto</Typography>
-                  <img src={emptystate} alt='empty' style={{ height: 300, width: 300, paddingTop : 70 }} /> 
+                    <Typography variant='h6' style={{ color: 'white', textAlign: 'center' }}>Add a new crypto</Typography>
+                    <img src={emptystate} alt='empty' style={{ height: 300, width: 300, paddingTop: 70 }} />
                   </div>
-                   :
+                  :
                   this.props.myCurrencies.map((x, i) => (
                     <Grid key={i} item xs={12} style={{ padding: '20px 5px', display: 'flex', alignItems: 'center' }}>
                       <OneCrypto
@@ -130,85 +129,70 @@ class MyWallet extends Component {
           onEscapeKeyDown={this.closeDialog}
           onBackdropClick={() => this.setState({ price: null, amountBought: null })}
           open={this.state.isDialogOpen}
-          style={{ backgroundColor: 'rgba(255, 255, 255, 0.5)' }}
           onClose={this.closeDialog} >
-          <div style={{ backgroundColor: '#24204b' }}>
-            <DialogTitle style={{ color: 'white' }} id="form-dialog-title">{this.state.isCryptoChanging ? 'Update currency' : 'Add currency'}</DialogTitle>
-            <DialogContent>
-              <DialogContentText style={{ color: 'white' }}>
-                Here you can add the crypto currency you want, just fill the fields below.
+          <DialogTitle id="form-dialog-title">{this.state.isCryptoChanging ? 'Update currency' : 'Add currency'}</DialogTitle>
+          <DialogContent>
+            <DialogContentText>
+              Here you can add the crypto currency you want, just fill the fields below.
             </DialogContentText>
-              <form onClick={(e) => {
-                if (!this.state.isCryptoChanging) {
-                  this.openMenu(e);
-                }
-              }}
-                style={{ width: 'fit-content', padding: '10px 0px' }}>
-                <Input
-                  disabled
-                  style={{ color: 'white' }}
-                  endAdornment={<InputAdornment position="end"><ArrowDropDownIcon style={{ color: 'white' }} /></InputAdornment>}
-                  value={this.state.isCryptoChanging ? this.state.symbol : (this.state.symbol ? this.state.symbol : 'Crypto')}
-                  inputProps={{ 'aria-label': 'description', readOnly: true }} />
-              </form>
-              <TextField
-                style={{ padding: '10px 0px' }}
-                InputProps={{
-                  className: classes.input
-                }}
-                InputLabelProps={{
-                  className: classes.input
-                }}
-                required
-                onChange={(e) => this.setState({ price: e.target.value })}
-                margin="dense"
-                id="price"
-                label="Buying price in dollars for one unit"
-                type="number"
-                fullWidth
-                value={this.state.price ? this.state.price : ''}
-              />
-              <TextField
-                style={{ padding: '10px 0px' }}
-                InputProps={{
-                  className: classes.input
-                }}
-                InputLabelProps={{
-                  className: classes.input
-                }}
-                required
-                onChange={(e) => this.setState({ amountBought: e.target.value })}
-                margin="dense"
-                id="number"
-                label="Amount"
-                type="number"
-                fullWidth
-                value={this.state.amountBought ? this.state.amountBought : ''}
-              />
-            </DialogContent>
-            <DialogActions>
-              <Button style={{ color: 'white' }} onClick={this.closeDialog} color="primary">
-                Cancel
+            <form onClick={(e) => {
+              if (!this.state.isCryptoChanging) {
+                this.openMenu(e);
+              }
+            }}
+              style={{ width: 'fit-content', padding: '10px 0px' }}>
+              <Input
+                disabled
+                endAdornment={<InputAdornment position="end"><ArrowDropDownIcon /></InputAdornment>}
+                value={this.state.isCryptoChanging ? this.state.symbol : (this.state.symbol ? this.state.symbol : 'Crypto')}
+                inputProps={{ 'aria-label': 'description', readOnly: true }} />
+            </form>
+            <TextField
+              style={{ padding: '10px 0px' }}
+              required
+              onChange={(e) => this.setState({ price: e.target.value })}
+              margin="dense"
+              id="price"
+              label="Buying price in dollars for one unit"
+              type="number"
+              fullWidth
+              value={this.state.price ? this.state.price : ''}
+            />
+            <TextField
+              style={{ padding: '10px 0px' }}
+              required
+              onChange={(e) => this.setState({ amountBought: e.target.value })}
+              margin="dense"
+              id="number"
+              label="Amount"
+              type="number"
+              fullWidth
+              value={this.state.amountBought ? this.state.amountBought : ''}
+            />
+          </DialogContent>
+          <DialogActions>
+            <Button onClick={this.closeDialog} color="primary">
+              Cancel
              </Button>
-              <Button disabled={!this.addFromVerification()} style={{ color: 'white' }} onClick={() => {
-                if (this.state.isCryptoChanging) {
-                  this.props.editCrypto(this.generateNewCurrnecy());
-                  showSnackbar('Crypto updated successfully', 'success');
-                  this.notEditingCrypto();
-                  this.closeDialog();
-                  this.clearDialogFields();
-                } else {
-                  this.props.addCrypto(this.generateNewCurrnecy());
-                  this.closeDialog()
-                  this.clearDialogFields();
-                }
-              }}
-                color="primary">
-                {this.state.isCryptoChanging ? 'Update' : 'Add'}
-
-              </Button>
-            </DialogActions>
-          </div>
+            <Button disabled={!this.addFromVerification()} onClick={() => {
+              if (this.state.isCryptoChanging) {
+                this.props.editCrypto(this.generateNewCurrnecy());
+                showSnackbar('Crypto updated successfully', 'success');
+                this.notEditingCrypto();
+                this.closeDialog();
+                this.clearDialogFields();
+              } else {
+                this.props.setSymbol(this.state.symbol)
+                this.props.setLabel(this.state.name)
+                this.props.addCrypto(this.generateNewCurrnecy());
+                this.closeDialog()
+                this.clearDialogFields();
+              }
+            }}
+              color="primary">
+              {this.state.isCryptoChanging ? 'Update' : 'Add'}
+            </Button>
+          </DialogActions>
         </Dialog>
         <Menu
           style={{ zIndex: 2000 }}
@@ -249,4 +233,4 @@ const mapStateToProps = state => ({
   cryptoes: state.cryptoesPrice.cryptoes,
 })
 
-export default connect(mapStateToProps, { addCrypto, removeCrypto, showSnackbar, editCrypto, getLocalStore })(withStyles(styles)(MyWallet))
+export default connect(mapStateToProps, { addCrypto, removeCrypto, showSnackbar, editCrypto, getLocalStore, setSymbol, setLabel })(withStyles(styles)(MyWallet))
